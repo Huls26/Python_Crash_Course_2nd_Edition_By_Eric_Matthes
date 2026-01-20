@@ -23,7 +23,7 @@ class Ship:
         if self.moving_right:
             self.rect.x += 1
         elif self.moving_left:
-            self.rect.x += 1
+            self.rect.x -= 1
         
     def blitme(self):
         """Draw the ship at its current location."""
