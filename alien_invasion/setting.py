@@ -6,7 +6,7 @@ class Setting:
         # Screen set
         self.screen_width = 1200
         self.screen_height = 800
-        self.bg_color = (10, 54, 100)
+        self.bg_color = (230, 230, 230)
 
         # ship speed
         self.ship_speed = 0.5
