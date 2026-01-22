@@ -3,6 +3,7 @@ import pygame
 
 from setting import Setting
 from ship import Ship
+from bullet import Bullet
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -24,6 +25,7 @@ class AlienInvasion:
         pygame.display.set_caption("Alien Invasion")
 
         self.ship = Ship(self)
+        self.bullet = Bullet(self)
     
     def _check_events(self):
         # Watch for keyboard and mouse events.
@@ -54,7 +56,9 @@ class AlienInvasion:
     def _update_screen(self):
         # Redraw the screen during each pass through the loop.
         self.screen.fill(self.setting.bg_color)
-        
+
+        self.bullet.update()
+
         self.ship.blitme()
         self.ship.update()
 
