@@ -14,7 +14,7 @@ class Bullet:
 
         self.bullet_rect.midbottom = self.ship.rect.midtop
         
-        self.shoot_bullet = True
+        self.shoot_bullet = False
 
     def update(self):
         if self.shoot_bullet:
