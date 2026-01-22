@@ -25,7 +25,7 @@ class AlienInvasion:
         pygame.display.set_caption("Alien Invasion")
 
         self.ship = Ship(self)
-        self.bullet = Bullet(self)
+        self.bullets = pygame.sprite.Group()
     
     def _check_events(self):
         # Watch for keyboard and mouse events.
@@ -47,24 +47,25 @@ class AlienInvasion:
         elif event.key == pygame.K_q:
             sys.exit()
         elif event.key == pygame.K_SPACE:
-            self.bullet.shoot_bullet = True
+            self._fire_bullets()
 
     def _check_keyup_events(self, event):
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
-            self.ship.moving_left = False
-        elif event.key == pygame.K_SPACE:
-            self.bullet.shoot_bullet = False     
+            self.ship.moving_left = False   
+
+    def _fire_bullets(self):
+        """Create a new bullet and add it to the bullets group."""
+        new_bullet = Bullet(self)
+        self.bullets.add(new_bullet)
 
     def _update_screen(self):
         # Redraw the screen during each pass through the loop.
         self.screen.fill(self.setting.bg_color)
-
-        self.bullet.update()
-
         self.ship.blitme()
-        self.ship.update()
+        for bullet in self.bullets.sprites():
+                bullet.draw_bullets()
 
         # Make the most recently drawn screen visible.                        
         pygame.display.flip()
@@ -73,6 +74,8 @@ class AlienInvasion:
         """Start the main loop for the game."""
         while True:
             self._check_events()
+            self.bullets.update()
+            self.ship.update()
             self._update_screen()
                 
 if __name__ == '__main__':
