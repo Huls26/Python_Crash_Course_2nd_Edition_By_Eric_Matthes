@@ -57,8 +57,9 @@ class AlienInvasion:
 
     def _fire_bullets(self):
         """Create a new bullet and add it to the bullets group."""
-        new_bullet = Bullet(self)
-        self.bullets.add(new_bullet)
+        if len(self.bullets) < self.setting.bullets_allowed:
+            new_bullet = Bullet(self)
+            self.bullets.add(new_bullet)
 
     def _update_screen(self):
         # Redraw the screen during each pass through the loop.
