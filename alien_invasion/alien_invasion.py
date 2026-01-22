@@ -3,7 +3,6 @@ import pygame
 
 from setting import Setting
 from ship import Ship
-from space_ship import SpaceShip
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -25,7 +24,6 @@ class AlienInvasion:
         pygame.display.set_caption("Alien Invasion")
 
         self.ship = Ship(self)
-        self.space_ship = SpaceShip(self)
     
     def _check_events(self):
         # Watch for keyboard and mouse events.
@@ -59,7 +57,6 @@ class AlienInvasion:
         
         self.ship.blitme()
         self.ship.update()
-        self.space_ship.blitme()
 
         # Make the most recently drawn screen visible.                        
         pygame.display.flip()
