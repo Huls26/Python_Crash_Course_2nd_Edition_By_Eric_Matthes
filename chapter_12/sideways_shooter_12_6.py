@@ -63,28 +63,46 @@ class Ship:
         self.screen.blit(self.image, self.rect)
 
 class Bullet(Sprite):
+    """A class to manage bullets fired from the ship."""
     def __init__(self, game):
-        super().__init__
+        super().__init__()
         self.screen = game.screen
         self.ship = game.ship
 
          # Bullet settings
-        self.bullet_speed = 1.0
+        self.bullet_speed = 0.5
         self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60)
         self.bullets_allowed = 3
 
         # Create a bullet rect at (0, 0) and then set correct position.
-        self.bullet_rect = pygame.Rect(
+        self.rect = pygame.Rect(
             0, 0, 
             self.bullet_width,
             self.bullet_height)
 
-        self.bullet_rect.midtop = self.rect.midtop
+        self.rect.midtop = self.ship.rect.midtop
         
         # Store the bullet's position as a decimal value.
-        self.bullet_y = float(self.bullete_rect.y)
+        self.y = float(self.rect.y)
+    
+    def update(self):
+        """Move the bullet up the screen."""
+
+        # Update the decimal position of the bullet.
+        self.y -= self.bullet_speed
+        # Update the rect position.
+        self.rect.y = self.y
+    
+    def draw_bullets(self):
+        """Draw the bullet to the screen."""
+        pygame.draw.rect(
+                self.screen,
+                self.bullet_color,
+                self.rect
+            )   
+
 
 class Game:
     def __init__(self):
@@ -102,22 +120,7 @@ class Game:
         self.bg_color = (255, 255, 255)
 
         self.ship = Ship(self)
-
-    def update_bullet(self):
-        """Move the bullet up the screen."""
-
-        # Update the decimal position of the bullet.
-        self.bullet_y -= self.bullet_speed
-        # Update the rect position.
-        self.bullet_rect.y = self.bullet_y
-
-    def draw_bullets(self):
-        """Draw the bullet to the screen."""
-        pygame.draw.rect(
-                self.screen,
-                self.bullet_colorcolor,
-                self.bullet_rect
-            )   
+        self.bullets = pygame.sprite.Group()
 
     def _check_events(self):
         """Respond to keyboard and quit events."""
@@ -129,6 +132,11 @@ class Game:
             elif event.type == pygame.KEYUP:
                 self._key_up_x_y(event)
 
+    def _fire_bullets(self):
+        """Create a new bullet and add it to the bullets group."""
+        new_bullet = Bullet(self)
+        self.bullets.add(new_bullet)
+
     def _key_down_x_y(self, event):
         """Handle key press events."""
         if event.key == pygame.K_RIGHT:
@@ -139,7 +147,9 @@ class Game:
             self.ship.move_up = True
         elif event.key == pygame.K_DOWN:
             self.ship.move_down = True
-    
+        elif event.key == pygame.K_SPACE:
+            self._fire_bullets()
+            
     def _key_up_x_y(self, event):
         """Handle key release events."""
         if event.key == pygame.K_RIGHT:
@@ -153,6 +163,10 @@ class Game:
 
     def _update_screen(self):
         self.screen.fill(self.bg_color)
+
+        for bullet in self.bullets.sprites():
+                bullet.draw_bullets()
+
         self.ship.blitme()
         pygame.display.flip()
 
@@ -160,8 +174,13 @@ class Game:
         """Main game loop."""
         while True:
             self._check_events()
+            self.bullets.update()
 
-            # Redraw the screen
+            # Remove bullets that have gone off the screen
+            for bullet in self.bullets.copy():
+                if bullet.rect.bottom <= 0:
+                    self.bullets.remove(bullet)
+                    # Remove bullets that have gone off the screen
             self.ship.update()
             self._update_screen()
 
