@@ -1,21 +1,12 @@
 import pygame
+from pygame.sprite import Sprite
 import sys
 
-class Shooter:
-    def __init__(self):
-        """Initialize the game and set up resources."""
-        pygame.init()
-        
-        # Set the screen size (width, height)
-        self.screen_size = (720, 700)
-        self.screen = pygame.display.set_mode(self.screen_size)
+class Ship:
+    def __init__(self, game):
+        self.screen = game.screen
+        self.screen_rect = game.screen.get_rect()
 
-        # Get the screen rectangle (used for boundaries and positioning)
-        self.screen_rect = self.screen.get_rect()
-
-        # Background color (white)
-        self.bg_color = (255, 255, 255)
-        
         # Load the character image 
         # Using an existing image so no need to download another one
         self.rocket = pygame.image.load('images/cat.bmp').convert()
@@ -29,10 +20,7 @@ class Shooter:
         # Start the character at the center of the screen
         self.rect.bottomleft = self.screen_rect.bottomleft
 
-        # Set the window title
-        pygame.display.set_caption("Rocket")
-
-        # Movement flags for horizontal movement
+          # Movement flags for horizontal movement
         self.move_right = False
         self.move_left = False
         # Store x position as a float for smooth movement
@@ -47,7 +35,7 @@ class Shooter:
         # Speed of the rocket (pixels per frame)    
         self.rocket_speed = 0.5
 
-    def update_movement(self):
+    def update(self):
         """Update the rocket's position based on movement flags."""
 
         # Move right if allowed and within screen bounds
@@ -74,6 +62,63 @@ class Shooter:
         """Draw the character at its current position."""
         self.screen.blit(self.image, self.rect)
 
+class Bullet(Sprite):
+    def __init__(self, game):
+        super().__init__
+        self.screen = game.screen
+        self.ship = game.ship
+
+         # Bullet settings
+        self.bullet_speed = 1.0
+        self.bullet_width = 3
+        self.bullet_height = 15
+        self.bullet_color = (60, 60, 60)
+        self.bullets_allowed = 3
+
+        # Create a bullet rect at (0, 0) and then set correct position.
+        self.bullet_rect = pygame.Rect(
+            0, 0, 
+            self.bullet_width,
+            self.bullet_height)
+
+        self.bullet_rect.midtop = self.rect.midtop
+        
+        # Store the bullet's position as a decimal value.
+        self.bullet_y = float(self.bullete_rect.y)
+
+class Game:
+    def __init__(self):
+        """Initialize the game and set up resources."""
+        pygame.init()
+        
+        # Set the screen size (width, height)
+        self.screen_size = (720, 700)
+        self.screen = pygame.display.set_mode(self.screen_size)
+
+        # Get the screen rectangle (used for boundaries and positioning)
+        self.screen_rect = self.screen.get_rect()
+
+        # Background color (white)
+        self.bg_color = (255, 255, 255)
+
+        self.ship = Ship(self)
+
+    def update_bullet(self):
+        """Move the bullet up the screen."""
+
+        # Update the decimal position of the bullet.
+        self.bullet_y -= self.bullet_speed
+        # Update the rect position.
+        self.bullet_rect.y = self.bullet_y
+
+    def draw_bullets(self):
+        """Draw the bullet to the screen."""
+        pygame.draw.rect(
+                self.screen,
+                self.bullet_colorcolor,
+                self.bullet_rect
+            )   
+
     def _check_events(self):
         """Respond to keyboard and quit events."""
         for event in pygame.event.get():
@@ -87,24 +132,29 @@ class Shooter:
     def _key_down_x_y(self, event):
         """Handle key press events."""
         if event.key == pygame.K_RIGHT:
-            self.move_right = True
+            self.ship.move_right = True
         elif event.key == pygame.K_LEFT:
-            self.move_left = True
+            self.ship.move_left = True
         elif event.key == pygame.K_UP:
-            self.move_up = True
+            self.ship.move_up = True
         elif event.key == pygame.K_DOWN:
-            self.move_down = True
+            self.ship.move_down = True
     
     def _key_up_x_y(self, event):
         """Handle key release events."""
         if event.key == pygame.K_RIGHT:
-            self.move_right = False
+            self.ship.move_right = False
         elif event.key == pygame.K_LEFT:
-            self.move_left = False
+            self.ship.move_left = False
         elif event.key == pygame.K_UP:
-            self.move_up = False
+            self.ship.move_up = False
         elif event.key == pygame.K_DOWN:
-            self.move_down = False
+            self.ship.move_down = False
+
+    def _update_screen(self):
+        self.screen.fill(self.bg_color)
+        self.ship.blitme()
+        pygame.display.flip()
 
     def run_game(self):
         """Main game loop."""
@@ -112,11 +162,9 @@ class Shooter:
             self._check_events()
 
             # Redraw the screen
-            self.update_movement()
-            self.screen.fill(self.bg_color)
-            self.blitme()
-            pygame.display.flip()
+            self.ship.update()
+            self._update_screen()
 
 # Create the game instance and start the game
-shooter_ship = Shooter()
+shooter_ship = Game()
 shooter_ship.run_game()
