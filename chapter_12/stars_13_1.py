@@ -25,10 +25,6 @@ class Star(Sprite):
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
 
-        # Store exact position as floats (useful for smooth movement later)
-        self.x = float(self.rect.x)
-        self.y = float(self.rect.y)
-
 class Screen:
     """Overall class to manage the star screen."""
 
@@ -65,38 +61,34 @@ class Screen:
     def _create_grid(self):
         """Create a full grid of stars on the screen."""
 
-        # Create one star to get its size
+        # Create one star to get its width and height
         star = Star(self)
         star_width, star_height = star.rect.size
+        
+        # Starting positions for the grid
+        star_x = star_width
+        star_y = star_height
 
-        # Calculate available horizontal space
-        available_space_x = self.screen_width - (2 * star_width)
+        # Loop down the screen (rows)
+        while star_y < self.screen_height - star_height:
 
-        # Calculate how many stars fit per row
-        number_star_x = available_space_x // star_width
+            # Loop across the screen (columns)
+            while star_x < self.screen_width - star_width:
+                self._create_star(star_x, star_y)
+                star_x += star_width * 2
 
-        # Calculate available vertical space
-        available_space_y = (self.screen_height - (2 * star_height))
+            # Reset x position and move down to the next row
+            star_x = star_width
+            star_y += star_height * 2
+        
 
-        # Calculate how many rows fit on the screen
-        number_rows = available_space_y // star_height
-
-        # Create stars row by row
-        for row_number in range(number_rows):
-            for star_number in range(number_star_x):
-                self._create_star(star_number, row_number)
-
-    def _create_star(self, star_number, row_number):
+    def _create_star(self, star_x, star_y):
         """Create a star and place it in the correct grid position."""
         star = Star(self)
-        star_width, star_height = star.rect.size
 
-        # Calculate the star's x position
-        star.x = star_width + 2 * star_width * star_number
-        star.rect.x = star.x
-
-        # Calculate the star's y position
-        star.rect.y = star_height + 2 * star_height * row_number
+        # Set the star's x and y position
+        star.rect.x = star_x
+        star.rect.y = star_y
 
         # Add the star to the sprite group
         self.stars.add(star)
