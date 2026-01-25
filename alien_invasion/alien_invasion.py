@@ -85,6 +85,12 @@ class AlienInvasion:
 
     def _update_aliens(self):
         """Update the positions of all aliens in the fleet."""
+        for alien in self.aliens.copy():
+            if alien.check_edges():
+                self.setting.fleet_direction = self.setting.fleet_direction * -1
+                break
+            print(self.setting.fleet_direction)
+
         self.aliens.update()
     
     def _create_fleet(self):
@@ -114,6 +120,7 @@ class AlienInvasion:
         alien.x = alien_width + 2 * alien_width * alien_number
         alien.rect.x = alien.x
         alien.rect.y = alien_height + 2 * alien_height * row_number
+
         self.aliens.add(alien)
 
     def run_game(self):
