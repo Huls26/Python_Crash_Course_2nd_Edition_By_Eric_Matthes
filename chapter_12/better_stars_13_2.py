@@ -26,10 +26,7 @@ class Star(Sprite):
         # Set an initial position (not final grid position yet)
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
-
-        # Store exact position as floats (useful for smooth movement later)
-        self.x = float(self.rect.x)
-        self.y = float(self.rect.y)
+        
 
 class Screen:
     """Overall class to manage the star screen."""
@@ -65,45 +62,38 @@ class Screen:
                 sys.exit()
 
     def _create_stars(self):
-        """Create a full grid of stars on the screen with slight randomness."""
+        """Create a grid of stars using while-loop logic."""
 
-        # Create one star to get its size
+        # Create a sample star to get dimensions
         star = Star(self)
         star_width, star_height = star.rect.size
 
-        # Calculate available horizontal space
-        available_space_x = self.screen_width - (2 * star_width)
+        # Starting positions
+        star_x = star_width
+        star_y = star_height
 
-        # Calculate how many stars fit per row
-        number_stars_x = available_space_x // star_width
+        # Loop down the screen (rows)
+        while star_y < self.screen_height - star_height:
 
-        # Calculate available vertical space
-        available_space_y = (self.screen_height - (2 * star_height))
+            # Loop across the screen (columns)
+            while star_x < self.screen_width - star_width:
+                self._create_star(star_x, star_y)
+                star_x += star_width * 2  # Move to next column
 
-        # Calculate how many rows fit on the screen
-        number_stars_y = available_space_y // star_height
+            # Reset x and move to the next row
+            star_x = star_width
+            star_y += star_height * 2
 
-        # Create stars row by row
-        for row in range(number_stars_y):
-            for col in range(number_stars_x):
-                self._create_star(col, row)
-
-
-    def _create_star(self, col, row):
-        """Create one star and position it with a small random offset."""
+    def _create_star(self, x, y):
+        """Create one star and apply slight random offset."""
 
         star = Star(self)
-        star_width, star_height = star.rect.size
 
-        # Base grid position
-        base_x = star_width + 2 * star_width * col
-        base_y = star_height + 2 * star_height * row
+        # Apply small random offset for a natural look
+        star.rect.x = x + randint(-15, 15)
+        star.rect.y = y + randint(-15, 15)
 
-        # Add small random offset (-15 to 15 pixels) to make it look natural
-        star.rect.x = base_x + randint(-15, 15)
-        star.rect.y = base_y + randint(-15, 15)
-        
-        # Add the star to the sprite group
+        # Add the star to the group
         self.stars.add(star)
 
     def _update_screen(self):
