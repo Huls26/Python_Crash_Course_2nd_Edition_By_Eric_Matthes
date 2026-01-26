@@ -4,12 +4,14 @@ import sys
 from rain import Rain
 
 class Window:
-    """Overall class to manage the star screen."""
+    """Overall class to manage the raindrop screen."""
 
     def __init__(self):
         """Initialize the game and set up resources."""
         pygame.init()
         
+        self.clock = pygame.time.Clock()
+
         # Screen dimensions
         self.screen_width = 750
         self.screen_height = 750
@@ -24,10 +26,9 @@ class Window:
         # Background color (white)
         self.bg_color = (255, 255, 255)
 
-        # Group to store all star sprites
+        # Group to store all raindrop sprites
         self.raindrops = pygame.sprite.Group()
 
-        # Create the grid of stars
         self._create_grid()
 
     def _check_events(self):
@@ -35,11 +36,14 @@ class Window:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    sys.exit()
 
     def _create_grid(self):
         """Create a full grid of stars on the screen."""
 
-        # Create one star to get its width and height
+        # Create one raindrop to get its width and height
         rain = Rain(self)
         rain_width, rain_height = rain.rect.size
         
@@ -49,7 +53,6 @@ class Window:
 
         # Loop down the screen (rows)
         while rain_y < self.screen_height - rain_height:
-
             # Loop across the screen (columns)
             while rain_x < self.screen_width - rain_width:
                 self._create_rain(rain_x, rain_y)
@@ -58,17 +61,18 @@ class Window:
             # Reset x position and move down to the next row
             rain_x = rain_width
             rain_y += rain_height * 2
-        
 
     def _create_rain(self, rain_x, rain_y):
         """Create a rain and place it in the correct grid position."""
         rain = Rain(self)
 
-        # Set the star's x and y position
+        # Set the raindrop's x and y position
+        print("explain this code window.py line 70")
         rain.rect.x = rain_x
-        rain.rect.y = rain_y
+        rain.y = rain_y
+        rain.rect.y = rain.y
 
-        # Add the star to the sprite group
+        # Add the rain to the sprite group
         self.raindrops.add(rain)
 
     def _update_screen(self):
@@ -76,10 +80,10 @@ class Window:
 
         # Fill the background
         self.screen.fill(self.bg_color)
-
-        # Draw all stars from the sprite group
+       
+        # Draw all raindrops from the sprite group
         self.raindrops.draw(self.screen)
-
+        
         # Make the most recently drawn screen visible
         pygame.display.flip()
 
@@ -87,7 +91,15 @@ class Window:
         """Main loop."""
         while True:
             self._check_events()
+            # for raindrop in self.raindrops.sprites():
+            #     raindrop.y += 0.01
+            #     raindrop.rect.y += raindrop.y
+                # print(raindrop.rect.y )
+                # raindrop.update()
+            self.raindrops.update()
             self._update_screen()
+           
+            self.clock.tick(60)
 
 # Create the instance and start the program
 raindrop = Window()
