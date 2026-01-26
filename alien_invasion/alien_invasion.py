@@ -38,7 +38,6 @@ class AlienInvasion:
                     sys.exit()
                 elif event.type == pygame.KEYDOWN:
                     self._check_keydown_events(event)
-
                 elif event.type == pygame.KEYUP:
                     self._check_keyup_events(event)
 
