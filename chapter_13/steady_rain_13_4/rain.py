@@ -28,6 +28,12 @@ class Rain(Sprite):
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
     
+    def check_screen_bottom(self):
+        screen_rect = self.screen.get_rect()
+
+        if self.rect.top >= screen_rect.bottom: 
+            return True  
+
     def update(self):
         """Move the raindrop to the down."""
         print("try to explain this code rain.py line 33")

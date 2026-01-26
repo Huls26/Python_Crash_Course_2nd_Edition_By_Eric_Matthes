@@ -91,11 +91,10 @@ class Window:
         """Main loop."""
         while True:
             self._check_events()
-            # for raindrop in self.raindrops.sprites():
-            #     raindrop.y += 0.01
-            #     raindrop.rect.y += raindrop.y
-                # print(raindrop.rect.y )
-                # raindrop.update()
+            for raindrop in self.raindrops.sprites():
+                if raindrop.check_screen_bottom():
+                    raindrop.y = raindrop.rect.height
+                    raindrop.rect.y = raindrop.y
             self.raindrops.update()
             self._update_screen()
            
