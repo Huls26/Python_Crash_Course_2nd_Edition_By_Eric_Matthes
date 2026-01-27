@@ -20,9 +20,6 @@ class Ship:
         # Start the character at the center of the screen
         self.rect.midleft = self.screen_rect.midleft
 
-          # Movement flags for horizontal movement
-        self.move_right = False
-        self.move_left = False
         # Store x position as a float for smooth movement
         self.x = float(self.rect.x)
 
@@ -37,14 +34,6 @@ class Ship:
 
     def update(self):
         """Update the rocket's position based on movement flags."""
-
-        # Move right if allowed and within screen bounds
-        if self.move_right and (self.x + self.rect.width) < self.screen_rect.width:
-            self.x += self.rocket_speed
-        
-        # Move left if allowed and within screen bounds
-        if self.move_left and self.x > 0:
-            self.x -= self.rocket_speed
         
         # Move up if allowed and within screen bounds
         if self.move_up and self.y > 0:
@@ -55,7 +44,6 @@ class Ship:
             self.y += self.rocket_speed
         
         # Update the rect position using the float values
-        self.rect.x = self.x
         self.rect.y = self.y
 
     def blitme(self):
@@ -139,11 +127,7 @@ class Game:
 
     def _key_down_x_y(self, event):
         """Handle key press events."""
-        if event.key == pygame.K_RIGHT:
-            self.ship.move_right = True
-        elif event.key == pygame.K_LEFT:
-            self.ship.move_left = True
-        elif event.key == pygame.K_UP:
+        if event.key == pygame.K_UP:
             self.ship.move_up = True
         elif event.key == pygame.K_DOWN:
             self.ship.move_down = True
@@ -152,11 +136,7 @@ class Game:
             
     def _key_up_x_y(self, event):
         """Handle key release events."""
-        if event.key == pygame.K_RIGHT:
-            self.ship.move_right = False
-        elif event.key == pygame.K_LEFT:
-            self.ship.move_left = False
-        elif event.key == pygame.K_UP:
+        if event.key == pygame.K_UP:
             self.ship.move_up = False
         elif event.key == pygame.K_DOWN:
             self.ship.move_down = False
