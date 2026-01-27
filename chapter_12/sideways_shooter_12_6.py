@@ -18,7 +18,7 @@ class Ship:
         self.rect = self.image.get_rect()
 
         # Start the character at the center of the screen
-        self.rect.bottomleft = self.screen_rect.bottomleft
+        self.rect.midleft = self.screen_rect.midleft
 
           # Movement flags for horizontal movement
         self.move_right = False
