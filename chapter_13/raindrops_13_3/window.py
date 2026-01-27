@@ -67,8 +67,8 @@ class Window:
         rain = Rain(self)
 
         # Set the raindrop's x and y position
-        print("explain this code window.py line 70")
-        rain.rect.x = rain_x
+        rain.x = rain_x
+        rain.rect.x = rain.x
         rain.y = rain_y
         rain.rect.y = rain.y
 
@@ -91,11 +91,9 @@ class Window:
         """Main loop."""
         while True:
             self._check_events()
-            # for raindrop in self.raindrops.sprites():
-            #     raindrop.y += 0.01
-            #     raindrop.rect.y += raindrop.y
-                # print(raindrop.rect.y )
-                # raindrop.update()
+            for rain in self.raindrops.copy():
+                if rain.rect.top >= self.screen_rect.bottom:
+                    self.raindrops.remove(rain)
             self.raindrops.update()
             self._update_screen()
            
