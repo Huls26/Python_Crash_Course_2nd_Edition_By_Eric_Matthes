@@ -67,7 +67,6 @@ class Window:
         rain = Rain(self)
 
         # Set the raindrop's x and y position
-        print("explain this code window.py line 70")
         rain.rect.x = rain_x
         rain.y = rain_y
         rain.rect.y = rain.y
@@ -93,8 +92,10 @@ class Window:
             self._check_events()
             for raindrop in self.raindrops.sprites():
                 if raindrop.check_screen_bottom():
-                    raindrop.y = raindrop.rect.height
+                    screen_top = 0 
+                    raindrop.y = screen_top
                     raindrop.rect.y = raindrop.y
+                    
             self.raindrops.update()
             self._update_screen()
            
