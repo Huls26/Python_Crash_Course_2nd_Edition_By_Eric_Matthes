@@ -2,7 +2,7 @@ import pygame
 from pygame.sprite import Sprite
 
 class Rain(Sprite):
-    """A class to represent a single star."""
+    """A class to represent a raindrop."""
 
     def __init__(self, game):
         super().__init__()
@@ -31,11 +31,10 @@ class Rain(Sprite):
     def check_screen_bottom(self):
         screen_rect = self.screen.get_rect()
 
-        if self.rect.top >= screen_rect.bottom: 
+        if self.rect.bottom >= screen_rect.bottom: 
             return True  
 
     def update(self):
         """Move the raindrop to the down."""
-        print("try to explain this code rain.py line 33")
         self.y += self.raindrop_speed
-        self.rect.y += self.raindrop_speed
+        self.rect.y = self.y
