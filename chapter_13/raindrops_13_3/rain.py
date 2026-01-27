@@ -18,7 +18,7 @@ class Rain(Sprite):
         self.image = pygame.transform.scale(self.rain, (50, 50))
 
         # Get a rect object for positioning the star
-        self.rect = self.rain.get_rect()
+        self.rect = self.image.get_rect()
         
         # Set an initial position (not final grid position yet)
         self.rect.x = self.rect.width
@@ -30,6 +30,5 @@ class Rain(Sprite):
     
     def update(self):
         """Move the raindrop to the down."""
-        print("try to explain this code rain.py line 33")
         self.y += self.raindrop_speed
-        self.rect.y += self.raindrop_speed
+        self.rect.y = self.y
