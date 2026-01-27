@@ -82,18 +82,18 @@ class Bullet(Sprite):
             self.bullet_width,
             self.bullet_height)
 
-        self.rect.midtop = self.ship.rect.midtop
+        self.rect.midright = self.ship.rect.midright
         
         # Store the bullet's position as a decimal value.
-        self.y = float(self.rect.y)
+        self.x = float(self.rect.x)
     
     def update(self):
         """Move the bullet up the screen."""
 
         # Update the decimal position of the bullet.
-        self.y -= self.bullet_speed
+        self.x += self.bullet_speed
         # Update the rect position.
-        self.rect.y = self.y
+        self.rect.x = self.x
     
     def draw_bullets(self):
         """Draw the bullet to the screen."""
