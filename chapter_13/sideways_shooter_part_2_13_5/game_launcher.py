@@ -84,7 +84,7 @@ class Game:
         alien_y = alien_height
 
         # Loop down the screen (rows)
-        while alien_y < self.setting.screen_height - alien_height:
+        while alien_y < self.setting.screen_height:
             # Loop across the screen (columns)
             while alien_x < self.setting.screen_width - alien_width:
                 self._create_alien(alien_x, alien_y)
