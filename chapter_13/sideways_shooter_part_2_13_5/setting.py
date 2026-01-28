@@ -13,9 +13,6 @@ class Setting:
 
         # Alien settings
         self.alien_speed = 0.1
-        self.fleet_move_left = 10
-        # fleet_direction of 1 represents right; -1 represents left.
-        self.fleet_direction = 1
 
         # Bullet settings
         self.bullet_speed = 10
