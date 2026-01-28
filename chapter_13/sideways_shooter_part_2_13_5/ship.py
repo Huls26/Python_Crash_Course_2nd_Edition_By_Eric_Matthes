@@ -4,6 +4,7 @@ class Ship:
     def __init__(self, game):
         self.screen = game.screen
         self.screen_rect = game.screen.get_rect()
+        self.setting = game.setting
 
         # Load the character image 
         # Using an existing image so no need to download another one
@@ -28,18 +29,17 @@ class Ship:
         self.y = float(self.rect.y)
 
         # Speed of the rocket (pixels per frame)    
-        self.rocket_speed = 0.5
 
     def update(self):
         """Update the rocket's position based on movement flags."""
         
         # Move up if allowed and within screen bounds
         if self.move_up and self.y > 0:
-            self.y -= self.rocket_speed
+            self.y -= self.setting.ship_speed
         
         # Move down if allowed and within screen bounds
         if self.move_down and (self.y + self.rect.height) < self.screen_rect.height:
-            self.y += self.rocket_speed
+            self.y +=  self.setting.ship_speed
         
         # Update the rect position using the float values
         self.rect.y = self.y
