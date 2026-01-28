@@ -50,6 +50,8 @@ class Game:
             self.ship.move_down = True
         elif event.key == pygame.K_SPACE:
             self._fire_bullets()
+        elif event.key == pygame.K_q:
+            sys.exit()
             
     def _key_up_x_y(self, event):
         """Handle key release events."""
