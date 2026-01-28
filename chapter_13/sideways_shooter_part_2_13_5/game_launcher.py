@@ -13,12 +13,11 @@ class Game:
         pygame.init()
         
         self.clock = pygame.time.Clock()
-        
+
         # Set the screen size (width, height)
         self.setting = Setting()
         self.screen_size = (self.setting.screen_width, self.setting.screen_height)
         self.screen = pygame.display.set_mode(self.screen_size)
-      
 
         # Get the screen rectangle (used for boundaries and positioning)
         self.screen_rect = self.screen.get_rect()
@@ -109,17 +108,26 @@ class Game:
     #     """Update the positions of all aliens in the fleet."""
     #     self.aliens.update()
 
+    def _update_bullets(self):
+        """Update position of bullets and get rid of old bullets."""
+
+        self.bullets.update()
+        # Get rid of bullets that have disappeared.
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
+        
+        self._check_bullet_alien_collisions()
+
+    def _check_bullet_alien_collisions(self):
+        collisions = pygame.sprite.groupcollide(
+                        self.bullets, self.aliens, True, True)
+
     def run_game(self):
         """Main game loop."""
         while True:
             self._check_events()
-            self.bullets.update()
-
-            # Remove bullets that have gone off the screen
-            for bullet in self.bullets.copy():
-                if bullet.rect.bottom <= 0:
-                    self.bullets.remove(bullet)
-                    # Remove bullets that have gone off the screen
+            self._update_bullets()
 
             self.ship.update()
             self.aliens.update()
