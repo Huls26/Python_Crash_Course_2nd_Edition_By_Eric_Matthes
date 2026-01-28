@@ -120,13 +120,31 @@ class Game:
         self._check_bullet_alien_collisions()
 
     def _check_bullet_alien_collisions(self):
-        collisions = pygame.sprite.groupcollide(
+        pygame.sprite.groupcollide(
                         self.bullets, self.aliens, True, True)
 
         if not self.aliens:
             # Destroy existing bullets and create new fleet.
             self.bullets.empty()
             self._create_fleet()
+
+    def _check_fleet_edges(self):
+        """Respond appropriately if any aliens have reached an edge."""
+        for alien in self.aliens.sprites():
+            if alien.check_edges():
+                self._change_fleet_direction()
+                break
+
+    def _change_fleet_direction(self):
+        """Drop the entire fleet and change the fleet's direction."""
+        for alien in self.aliens.sprites():
+            alien.rect.x -= self.setting.fleet_speed
+        self.setting.fleet_direction *= -1
+
+    def _update_aliens(self):
+        """Update the positions of all aliens in the fleet."""
+        self._check_fleet_edges()
+        self.aliens.update()
 
     def run_game(self):
         """Main game loop."""
@@ -135,7 +153,7 @@ class Game:
             self._update_bullets()
 
             self.ship.update()
-            self.aliens.update()
+            self._update_aliens()
             self._update_screen()
 
             self.clock.tick(60)
