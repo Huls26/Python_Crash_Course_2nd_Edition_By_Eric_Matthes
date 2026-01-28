@@ -123,6 +123,11 @@ class Game:
         collisions = pygame.sprite.groupcollide(
                         self.bullets, self.aliens, True, True)
 
+        if not self.aliens:
+            # Destroy existing bullets and create new fleet.
+            self.bullets.empty()
+            self._create_fleet()
+
     def run_game(self):
         """Main game loop."""
         while True:
