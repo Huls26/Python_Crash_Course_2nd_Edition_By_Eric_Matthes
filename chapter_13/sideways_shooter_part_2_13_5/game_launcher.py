@@ -114,7 +114,7 @@ class Game:
         self.bullets.update()
         # Get rid of bullets that have disappeared.
         for bullet in self.bullets.copy():
-            if bullet.rect.bottom <= 0:
+            if bullet.rect.left >= self.setting.screen_width:
                 self.bullets.remove(bullet)
         
         self._check_bullet_alien_collisions()
@@ -138,7 +138,7 @@ class Game:
     def _change_fleet_direction(self):
         """Drop the entire fleet and change the fleet's direction."""
         for alien in self.aliens.sprites():
-            alien.rect.x -= self.setting.fleet_speed
+            alien.rect.x -= self.setting.fleet_move_left
         self.setting.fleet_direction *= -1
 
     def _update_aliens(self):
