@@ -12,6 +12,8 @@ class Game:
         """Initialize the game and set up resources."""
         pygame.init()
         
+        self.clock = pygame.time.Clock()
+        
         # Set the screen size (width, height)
         self.setting = Setting()
         self.screen_size = (self.setting.screen_width, self.setting.screen_height)
@@ -97,7 +99,8 @@ class Game:
     def _create_alien(self, alien_x, alien_y):
         """Create an alien and place it in the row."""
         alien = Alien(self)
-        alien.rect.x = alien_x
+        alien.x = alien_x
+        alien.rect.x = alien.x
         alien.y = alien_y
         alien.rect.y = alien.y
         self.aliens.add(alien)
@@ -119,7 +122,10 @@ class Game:
                     # Remove bullets that have gone off the screen
 
             self.ship.update()
+            self.aliens.update()
             self._update_screen()
+
+            self.clock.tick(60)
 
 # Create the game instance and start the game
 shooter_ship = Game()
