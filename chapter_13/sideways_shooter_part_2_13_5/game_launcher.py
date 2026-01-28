@@ -1,5 +1,4 @@
 import pygame
-from pygame.sprite import Sprite
 import sys
 
 from ship import Ship
@@ -9,27 +8,32 @@ from setting import Setting
 
 class Game:
     def __init__(self):
-        """Initialize the game and set up resources."""
+        """Initialize the game, settings, and main resources."""
         pygame.init()
         
+        # Control the frame rate
         self.clock = pygame.time.Clock()
 
-        # Set the screen size (width, height)
+        # Game settings and screen setup
         self.setting = Setting()
         self.screen_size = (self.setting.screen_width, self.setting.screen_height)
         self.screen = pygame.display.set_mode(self.screen_size)
 
-        # Get the screen rectangle (used for boundaries and positioning)
+        # Screen rectangle used for positioning and boundaries
         self.screen_rect = self.screen.get_rect()
 
+        # Create the player ship
         self.ship = Ship(self)
+
+        # Sprite groups for bullets and aliens
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
 
+        # Create the initial fleet of aliens
         self._create_fleet()
 
     def _check_events(self):
-        """Respond to keyboard and quit events."""
+        """Handle keyboard input and window close events."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -39,12 +43,12 @@ class Game:
                 self._key_up_x_y(event)
 
     def _fire_bullets(self):
-        """Create a new bullet and add it to the bullets group."""
+        """Create a new bullet fired from the ship."""
         new_bullet = Bullet(self)
         self.bullets.add(new_bullet)
 
     def _key_down_x_y(self, event):
-        """Handle key press events."""
+        """Respond to key presses."""
         if event.key == pygame.K_UP:
             self.ship.move_up = True
         elif event.key == pygame.K_DOWN:
@@ -55,48 +59,51 @@ class Game:
             sys.exit()
             
     def _key_up_x_y(self, event):
-        """Handle key release events."""
+        """Respond to key releases."""
         if event.key == pygame.K_UP:
             self.ship.move_up = False
         elif event.key == pygame.K_DOWN:
             self.ship.move_down = False
 
     def _update_screen(self):
+        """Redraw the screen and all game elements."""
         self.screen.fill(self.setting.bg_color)
 
+        # Draw bullets
         for bullet in self.bullets.sprites():
-                bullet.draw_bullets()
+            bullet.draw_bullets()
 
+        # Draw ship and aliens
         self.ship.blitme()
         self.aliens.draw(self.screen)
+
+        # Make the most recent screen visible
         pygame.display.flip()
 
     def _create_fleet(self):
-        """Create the fleet of aliens."""
-        # Create an alien and find the number of aliens in a row.
-        # Spacing between each alien is equal to one alien width.
+        """Create a grid-based fleet of aliens starting on the right side."""
+        # Create a sample alien to get its size
         alien = Alien(self)
-
         alien_width, alien_height = alien.rect.size
         
-        # Starting positions for the grid
-        alien_position_x = alien_width + alien_width * 5
+        # Starting position for the alien grid
+        alien_position_x = alien_width * 6
         alien_x = alien_position_x
         alien_y = alien_height
 
-        # Loop down the screen (rows)
+        # Create multiple rows of aliens
         while alien_y < self.setting.screen_height:
-            # Loop across the screen (columns)
+            # Create aliens across the screen
             while alien_x < self.setting.screen_width - alien_width:
                 self._create_alien(alien_x, alien_y)
                 alien_x += alien_width * 2
 
-            # Reset x position and move down to the next row
+            # Move down to the next row
             alien_x = alien_position_x
             alien_y += alien_height * 2
 
     def _create_alien(self, alien_x, alien_y):
-        """Create an alien and place it in the row."""
+        """Create a single alien at a specific position."""
         alien = Alien(self)
         alien.x = alien_x
         alien.rect.x = alien.x
@@ -105,27 +112,30 @@ class Game:
         self.aliens.add(alien)
 
     def _update_bullets(self):
-        """Update position of bullets and get rid of old bullets."""
-
+        """Update bullets and remove those that leave the screen."""
         self.bullets.update()
-        # Get rid of bullets that have disappeared.
+
+        # Remove bullets that move off the right side of the screen
         for bullet in self.bullets.copy():
             if bullet.rect.left >= self.setting.screen_width:
                 self.bullets.remove(bullet)
         
+        # Check for bullet–alien collisions
         self._check_bullet_alien_collisions()
 
     def _check_bullet_alien_collisions(self):
+        """Remove bullets and aliens that collide."""
         pygame.sprite.groupcollide(
-                        self.bullets, self.aliens, True, True)
+            self.bullets, self.aliens, True, True
+        )
 
+        # If all aliens are destroyed, create a new fleet
         if not self.aliens:
-            # Destroy existing bullets and create new fleet.
             self.bullets.empty()
             self._create_fleet()
 
     def _update_aliens(self):
-        """Update the positions of all aliens in the fleet."""
+        """Update alien positions (aliens move left toward the ship)."""
         self.aliens.update()
 
     def run_game(self):
@@ -138,6 +148,7 @@ class Game:
             self._update_aliens()
             self._update_screen()
 
+            # Limit the game to 60 frames per second
             self.clock.tick(60)
 
 # Create the game instance and start the game
