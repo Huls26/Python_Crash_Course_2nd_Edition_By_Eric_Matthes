@@ -104,10 +104,6 @@ class Game:
         alien.rect.y = alien.y
         self.aliens.add(alien)
 
-    # def _update_aliens(self):
-    #     """Update the positions of all aliens in the fleet."""
-    #     self.aliens.update()
-
     def _update_bullets(self):
         """Update position of bullets and get rid of old bullets."""
 
@@ -128,22 +124,8 @@ class Game:
             self.bullets.empty()
             self._create_fleet()
 
-    def _check_fleet_edges(self):
-        """Respond appropriately if any aliens have reached an edge."""
-        for alien in self.aliens.sprites():
-            if alien.check_edges():
-                self._change_fleet_direction()
-                break
-
-    def _change_fleet_direction(self):
-        """Drop the entire fleet and change the fleet's direction."""
-        for alien in self.aliens.sprites():
-            alien.rect.x -= self.setting.fleet_move_left
-        self.setting.fleet_direction *= -1
-
     def _update_aliens(self):
         """Update the positions of all aliens in the fleet."""
-        self._check_fleet_edges()
         self.aliens.update()
 
     def run_game(self):
