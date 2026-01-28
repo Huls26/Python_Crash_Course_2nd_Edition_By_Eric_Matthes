@@ -79,7 +79,8 @@ class Game:
         alien_width, alien_height = alien.rect.size
         
         # Starting positions for the grid
-        alien_x = alien_width
+        alien_position_x = alien_width + alien_width * 5
+        alien_x = alien_position_x
         alien_y = alien_height
 
         # Loop down the screen (rows)
@@ -90,7 +91,7 @@ class Game:
                 alien_x += alien_width * 2
 
             # Reset x position and move down to the next row
-            alien_x = alien_width
+            alien_x = alien_position_x
             alien_y += alien_height * 2
 
     def _create_alien(self, alien_x, alien_y):
