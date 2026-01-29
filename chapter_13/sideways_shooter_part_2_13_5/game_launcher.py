@@ -126,6 +126,9 @@ class Game:
         
         # Check for bullet–alien collisions
         self._check_bullet_alien_collisions()
+        
+        if self.stats.alien_hits >= 15:
+            self.stats.game_active = False
 
     def _check_bullet_alien_collisions(self):
         """Remove bullets and aliens that collide."""
@@ -152,35 +155,46 @@ class Game:
         self._check_aliens_left_edge()
     
     def _ship_hit(self):
-        # Decrement ships_left.
-        self.stats.ships_left -= 1
-        self.stats.ship_hits += 1
+        """Respond to the ship being hit by an alien."""
 
-        # Get rid of any remaining aliens and bullets.
-        self.aliens.empty()
-        self.bullets.empty()
+        if self.stats.ships_left > 0:
+            # Decrement ships_left.
+            self.stats.ships_left -= 1
+            self.stats.ship_hits += 1
 
-        # Create a new fleet and center the ship.
-        self._create_fleet()
-        self.ship.center_ship()
+            # Get rid of any remaining aliens and bullets.
+            self.aliens.empty()
+            self.bullets.empty()
 
-        # Pause.
-        sleep(0.5)
+            # Create a new fleet and center the ship.
+            self._create_fleet()
+            self.ship.center_ship()
+
+            # Pause.
+            sleep(0.5)
+        else:
+            self.stats.game_active = False
 
     def _check_aliens_left_edge(self):
         for alien in self.aliens.sprites():
             if alien.rect.left <= 0:
                 self._ship_hit()
                 break
+    
+    def _game_end(self):
+        if (self.stats.alien_hits == 15) or (self.stats.ships_left == 0):
+            self.stats.game_active = False
 
     def run_game(self):
         """Main game loop."""
         while True:
             self._check_events()
-            self._update_bullets()
 
-            self.ship.update()
-            self._update_aliens()
+            if self.stats.game_active:
+                self._update_bullets()
+                self.ship.update()
+                self._update_aliens()
+
             self._update_screen()
 
             # Limit the game to 60 frames per second
