@@ -1,5 +1,6 @@
 import pygame
 import sys
+from time import sleep
 
 from ship import Ship
 from bullet import Bullet
@@ -143,6 +144,25 @@ class Game:
     def _update_aliens(self):
         """Update alien positions (aliens move left toward the ship)."""
         self.aliens.update()
+
+        # Look for alien-ship collisions.
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            self._ship_hit()
+    
+    def _ship_hit(self):
+        # Decrement ships_left.
+        self.stats.ships_left -= 1
+
+        # Get rid of any remaining aliens and bullets.
+        self.aliens.empty()
+        self.bullets.empty()
+
+        # Create a new fleet and center the ship.
+        self._create_fleet()
+        self.ship.center_ship()
+
+        # Pause.
+        sleep(0.5)
 
     def run_game(self):
         """Main game loop."""
