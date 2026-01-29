@@ -5,6 +5,7 @@ from ship import Ship
 from bullet import Bullet
 from alien import Alien
 from setting import Setting
+from game_stats import GameStats
 
 class Game:
     def __init__(self):
@@ -21,6 +22,8 @@ class Game:
 
         # Screen rectangle used for positioning and boundaries
         self.screen_rect = self.screen.get_rect()
+
+        self.stats = GameStats(self)
 
         # Create the player ship
         self.ship = Ship(self)
@@ -125,9 +128,12 @@ class Game:
 
     def _check_bullet_alien_collisions(self):
         """Remove bullets and aliens that collide."""
-        pygame.sprite.groupcollide(
+        collision = pygame.sprite.groupcollide(
             self.bullets, self.aliens, True, True
         )
+
+        if collision:
+            self.stats.alien_hits += 1
 
         # If all aliens are destroyed, create a new fleet
         if not self.aliens:
