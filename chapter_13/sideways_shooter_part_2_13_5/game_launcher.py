@@ -148,10 +148,13 @@ class Game:
         # Look for alien-ship collisions.
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_hit()
+
+        self._check_aliens_left_edge()
     
     def _ship_hit(self):
         # Decrement ships_left.
         self.stats.ships_left -= 1
+        self.stats.ship_hits += 1
 
         # Get rid of any remaining aliens and bullets.
         self.aliens.empty()
@@ -163,6 +166,12 @@ class Game:
 
         # Pause.
         sleep(0.5)
+
+    def _check_aliens_left_edge(self):
+        for alien in self.aliens.sprites():
+            if alien.rect.left <= 0:
+                self._ship_hit()
+                break
 
     def run_game(self):
         """Main game loop."""

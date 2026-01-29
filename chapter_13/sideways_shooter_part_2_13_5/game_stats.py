@@ -7,6 +7,7 @@ class GameStats:
         # Start Alien Invasion in an active state.
         self.game_active = True
         self.alien_hits = 0
+        self.ship_hits = 0
 
         self.reset_stats()
 
