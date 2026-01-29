@@ -7,7 +7,9 @@ class Alien(Sprite):
     def __init__(self, ai_game):
         """
         Initialize the alien and set its starting position.
-        Aliens start near the top-left of the screen, but will move left toward the ship.
+        Aliens start near the top-left of the screen and move left toward the player's ship.
+        Args:
+            ai_game: An instance of the Game class, used to access game settings and the screen.
         """
         super().__init__()
         self.screen = ai_game.screen
@@ -17,7 +19,7 @@ class Alien(Sprite):
         self.image = pygame.image.load('../images/alien.bmp')
         self.rect = self.image.get_rect()
 
-        # Start each new alien near the top-left of the screen
+        # Set initial position near the top-left corner of the screen
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
 
@@ -27,8 +29,13 @@ class Alien(Sprite):
 
     def update(self):
         """
-        Move the alien left toward the ship.
-        This method is called on every frame to update the alien's position.
+        Move the alien left across the screen.
+        
+        Called once per frame. Updates both the float-based horizontal position 
+        and the rect for rendering on the screen.
         """
-        self.x -= self.settings.alien_speed  # Move left
-        self.rect.x = self.x  # Update the rect position for rendering
+
+        # Move left based on the alien's speed setting
+        self.x -= self.settings.alien_speed
+        # Update rect position for drawing
+        self.rect.x = self.x 

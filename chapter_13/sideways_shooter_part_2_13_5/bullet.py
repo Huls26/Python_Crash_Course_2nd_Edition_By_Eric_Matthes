@@ -2,19 +2,23 @@ import pygame
 from pygame.sprite import Sprite
 
 class Bullet(Sprite):
-    """A class to manage bullets fired from the ship in the Sideways Shooter game."""
+    """A class to manage bullets fired from the player's ship in Sideways Shooter."""
 
     def __init__(self, game):
         """
         Initialize a bullet at the ship's current position.
-        Bullets will move horizontally to the right across the screen.
+
+        Bullets are created at the ship's mid-right and move horizontally to the right.
+
+        Args:
+            game: An instance of the Game class, used to access the ship, screen, and settings.
         """
         super().__init__()
         self.screen = game.screen
         self.ship = game.ship
         self.setting = game.setting
 
-        # Create a bullet rectangle (width x height) at (0,0)
+        # Create a bullet rectangle at (0, 0) with the defined width and height
         # Position it at the ship's mid-right so it appears to be fired from the ship
         self.rect = pygame.Rect(
             0, 0, 
@@ -23,21 +27,23 @@ class Bullet(Sprite):
         )
         self.rect.midright = self.ship.rect.midright
 
-        # Store the bullet's horizontal position as a float for precise movement
+        # Store the bullet's horizontal position as a float for smooth movement
         self.x = float(self.rect.x)
 
     def update(self):
         """
-        Move the bullet to the right across the screen.
-        This method is called once per frame to update the bullet's position.
+        Move the bullet right across the screen.
+
+        Called once per frame. Updates the float-based x-position and
+        the rect for rendering.
         """
-        # Increase the x-coordinate by the bullet speed to move it right
+        # Move bullet right based on the bullet speed
         self.x += self.setting.bullet_speed
-        # Update the rect position to match the float position
+        # Update rect position for drawing
         self.rect.x = self.x
 
     def draw_bullets(self):
-        """Draw the bullet as a rectangle on the screen."""
+        """Draw the bullet as a filled rectangle on the screen."""
         pygame.draw.rect(
             self.screen,
             self.setting.bullet_color,

@@ -9,8 +9,10 @@ from setting import Setting
 from game_stats import GameStats
 
 class Game:
+    """Overall class to manage game assets and behavior for Sideways Shooter."""
+
     def __init__(self):
-        """Initialize the game, settings, and main resources."""
+        """Initialize the game, settings, screen, ship, bullets, aliens, and statistics."""
         pygame.init()
         
         # Control the frame rate
@@ -20,10 +22,9 @@ class Game:
         self.setting = Setting()
         self.screen_size = (self.setting.screen_width, self.setting.screen_height)
         self.screen = pygame.display.set_mode(self.screen_size)
-
-        # Screen rectangle used for positioning and boundaries
         self.screen_rect = self.screen.get_rect()
 
+        # Game statistics
         self.stats = GameStats(self)
 
         # Create the player ship
@@ -37,7 +38,7 @@ class Game:
         self._create_fleet()
 
     def _check_events(self):
-        """Handle keyboard input and window close events."""
+        """Respond to keyboard and mouse events."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -52,7 +53,7 @@ class Game:
         self.bullets.add(new_bullet)
 
     def _key_down_x_y(self, event):
-        """Respond to key presses."""
+        """Handle key press events for ship movement and firing."""
         if event.key == pygame.K_UP:
             self.ship.move_up = True
         elif event.key == pygame.K_DOWN:
@@ -63,14 +64,14 @@ class Game:
             sys.exit()
             
     def _key_up_x_y(self, event):
-        """Respond to key releases."""
+        """Handle key release events to stop ship movement."""
         if event.key == pygame.K_UP:
             self.ship.move_up = False
         elif event.key == pygame.K_DOWN:
             self.ship.move_down = False
 
     def _update_screen(self):
-        """Redraw the screen and all game elements."""
+        """Redraw all game elements on the screen each frame."""
         self.screen.fill(self.setting.bg_color)
 
         # Draw bullets
@@ -85,29 +86,28 @@ class Game:
         pygame.display.flip()
 
     def _create_fleet(self):
-        """Create a grid-based fleet of aliens starting on the right side."""
-        # Create a sample alien to get its size
+        """Create a grid-based fleet of aliens starting on the right side of the screen."""
+        # Create a sample alien to get its dimensions
         alien = Alien(self)
         alien_width, alien_height = alien.rect.size
         
-        # Starting position for the alien grid
+        # Starting positions for the alien grid
         alien_position_x = alien_width * 6
         alien_x = alien_position_x
         alien_y = alien_height
 
         # Create multiple rows of aliens
         while alien_y < self.setting.screen_height:
-            # Create aliens across the screen
             while alien_x < self.setting.screen_width - alien_width:
                 self._create_alien(alien_x, alien_y)
                 alien_x += alien_width * 2
 
-            # Move down to the next row
+            # Move to the next row
             alien_x = alien_position_x
             alien_y += alien_height * 2
 
     def _create_alien(self, alien_x, alien_y):
-        """Create a single alien at a specific position."""
+        """Create a single alien at the specified position and add it to the aliens group."""
         alien = Alien(self)
         alien.x = alien_x
         alien.rect.x = alien.x
@@ -116,7 +116,7 @@ class Game:
         self.aliens.add(alien)
 
     def _update_bullets(self):
-        """Update bullets and remove those that leave the screen."""
+        """Update the position of bullets and remove those that have moved off-screen."""
         self.bullets.update()
 
         # Remove bullets that move off the right side of the screen
@@ -124,11 +124,16 @@ class Game:
             if bullet.rect.left >= self.setting.screen_width:
                 self.bullets.remove(bullet)
         
-        # Check for bullet–alien collisions
+        # Check for collisions between bullets and aliens
         self._check_bullet_alien_collisions()
 
     def _check_bullet_alien_collisions(self):
-        """Remove bullets and aliens that collide."""
+        """
+        Detect collisions between bullets and aliens, remove them, and update alien hit count.
+
+        Also ends the game if max_alien_hits is reached, and creates a new fleet if all aliens are destroyed.
+        
+        """
         collision = pygame.sprite.groupcollide(
             self.bullets, self.aliens, True, True
         )
@@ -146,28 +151,34 @@ class Game:
             self._create_fleet()
 
     def _update_aliens(self):
-        """Update alien positions (aliens move left toward the ship)."""
+        """Update positions of all aliens and check for collisions with the ship or left screen edge."""
         self.aliens.update()
 
-        # Look for alien-ship collisions.
+        # Check for collision between any alien and the ship
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_hit()
 
+        # Check if any alien has reached the left edge of the screen
         self._check_aliens_hit_left_edge()
     
     def _ship_hit(self):
-        """Respond to the ship being hit by an alien."""
+        """
+        Respond to the ship being hit by an alien.
+
+        Decrements ships_left and ship_hits, resets the fleet and bullets, and pauses briefly.
+        Ends the game if no ships remain.
+        """
 
         if self.stats.ships_left > 0:
-            # Decrement ships_left.
+            # Update ship and hit statistics
             self.stats.ships_left -= 1
             self.stats.ship_hits += 1
 
-            # Get rid of any remaining aliens and bullets.
+            # Clear remaining aliens and bullets
             self.aliens.empty()
             self.bullets.empty()
 
-            # Create a new fleet and center the ship.
+            # Create a new fleet and center the ship
             self._create_fleet()
             self.ship.center_ship()
 
@@ -177,13 +188,14 @@ class Game:
             self.stats.game_active = False
 
     def _check_aliens_hit_left_edge(self):
+        """Check if any alien has reached the left edge of the screen and trigger a ship hit."""
         for alien in self.aliens.sprites():
             if alien.rect.left <= 0:
                 self._ship_hit()
                 break
 
     def run_game(self):
-        """Main game loop."""
+        """Start the main game loop, handling events, updates, and drawing each frame."""
         while True:
             self._check_events()
 

@@ -1,14 +1,15 @@
 class Setting:
-    """A class to store all settings for Alien Invasion."""
+    """A class to store all settings for the Sideways Shooter game."""
 
     def __init__(self):
-        """Initialize the game's settings."""
-        # Screen set
+        """Initialize the game's static settings."""
+        # Screen settings
         self.screen_width = 1200
         self.screen_height = 870
+        # White background
         self.bg_color = (255, 255, 255)
 
-        # ship speed
+        # Ship settings
         self.ship_speed = 15
         self.ship_limit = 3
 
