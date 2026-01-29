@@ -14,6 +14,7 @@ class Setting:
 
         # Alien settings
         self.alien_speed = 0.1
+        self.max_alien_hits = 15
 
         # Bullet settings
         self.bullet_speed = 10

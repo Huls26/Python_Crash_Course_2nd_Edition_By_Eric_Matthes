@@ -57,7 +57,7 @@ class Game:
             self.ship.move_up = True
         elif event.key == pygame.K_DOWN:
             self.ship.move_down = True
-        elif event.key == pygame.K_SPACE:
+        elif event.key == pygame.K_SPACE and self.stats.game_active:
             self._fire_bullets()
         elif event.key == pygame.K_q:
             sys.exit()
@@ -126,9 +126,6 @@ class Game:
         
         # Check for bullet–alien collisions
         self._check_bullet_alien_collisions()
-        
-        if self.stats.alien_hits >= 15:
-            self.stats.game_active = False
 
     def _check_bullet_alien_collisions(self):
         """Remove bullets and aliens that collide."""
@@ -136,8 +133,12 @@ class Game:
             self.bullets, self.aliens, True, True
         )
 
-        if collision:
-            self.stats.alien_hits += 1
+        for aliens_hit in collision.values():
+            if self.stats.alien_hits < self.setting.max_alien_hits:
+                self.stats.alien_hits += len(aliens_hit)
+            else: 
+                self.stats.game_active = False
+                break
 
         # If all aliens are destroyed, create a new fleet
         if not self.aliens:
@@ -152,7 +153,7 @@ class Game:
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_hit()
 
-        self._check_aliens_left_edge()
+        self._check_aliens_hit_left_edge()
     
     def _ship_hit(self):
         """Respond to the ship being hit by an alien."""
@@ -175,15 +176,11 @@ class Game:
         else:
             self.stats.game_active = False
 
-    def _check_aliens_left_edge(self):
+    def _check_aliens_hit_left_edge(self):
         for alien in self.aliens.sprites():
             if alien.rect.left <= 0:
                 self._ship_hit()
                 break
-    
-    def _game_end(self):
-        if (self.stats.alien_hits == 15) or (self.stats.ships_left == 0):
-            self.stats.game_active = False
 
     def run_game(self):
         """Main game loop."""
