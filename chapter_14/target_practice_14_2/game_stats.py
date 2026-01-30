@@ -15,7 +15,7 @@ class GameStats:
         
         # Track the number of target hits and ship hits
         self.target_hits = 0
-        self.ship_hits = 0
+        self.bullets_missed_count = 0
 
         # Initialize other statistics that can change during the game
         self.reset_stats()
