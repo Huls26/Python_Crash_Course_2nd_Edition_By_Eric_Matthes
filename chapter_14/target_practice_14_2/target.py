@@ -2,7 +2,7 @@ import pygame
 from pygame.sprite import Sprite
 
 class Target(Sprite):
-    """A class to represent a single target in the fleet for Sideways Shooter."""
+    """A class to represent a single target"""
 
     def __init__(self, ai_game):
         """
@@ -32,7 +32,6 @@ class Target(Sprite):
         self.rect.right = self.screen_rect.right - self.rect.width
         self.rect.centery = self.screen_rect.centery
 
-        # Store the alien's exact horizontal and vertical positions as floats for smooth movement
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
 
@@ -45,7 +44,7 @@ class Target(Sprite):
         """
 
         # Move left based on the alien's speed setting
-        self.x -= self.setting.alien_speed
+        self.x -= self.setting.target_speed
         # Update rect position for drawing
         self.rect.x = self.x 
 
@@ -53,6 +52,6 @@ class Target(Sprite):
         """Draw the target as a filled rectangle on the screen."""
         pygame.draw.rect(
             self.screen,
-            self.setting.bullet_color,
+            self.setting.target_color,
             self.rect
         )
