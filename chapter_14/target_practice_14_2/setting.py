@@ -20,6 +20,7 @@ class Setting:
         self.target_height = 75
         self.target_color = (3, 26, 96)
         self.target_direction = 1
+        self.missed_bullet_limit = 3
 
         # Bullet settings
         self.bullet_speed = 10
