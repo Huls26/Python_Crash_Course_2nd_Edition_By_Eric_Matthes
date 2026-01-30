@@ -116,29 +116,24 @@ class Game:
         """Update the position of bullets and remove those that have moved off-screen."""
         self.bullets.update()
 
-        # Remove bullets that move off the right side of the screen
-        for bullet in self.bullets.copy():
-            if bullet.rect.left >= self.setting.screen_width:
-                self.bullets.remove(bullet)
-        
         # Check for collisions between bullets and aliens
         self._check_bullet_target_collisions()
+
+        # Remove bullets that move off the right side of the screen
+        for bullet in self.bullets.copy():
+            if bullet.is_bullet_missed():
+                self.bullets.remove(bullet)
+                self.stats.bullets_missed_count += 1
+
+            if self.stats.bullets_missed_count >= self.setting.missed_bullet_limit:
+                self.stats.game_active = False
+                pygame.mouse.set_visible(True)
 
     def _check_bullet_target_collisions(self):
         collision = pygame.sprite.spritecollide(self.target, self.bullets, True) 
         
         if collision:
             self.stats.target_hits += 1
-
-        # Count bullets that missed the target
-        for bullet in self.bullets.sprites():
-            if bullet.is_bullet_missed():
-                self.stats.bullets_missed_count += 1
-
-            if self.stats.bullets_missed_count >= self.setting.missed_bullet_limit:
-                self.stats.game_active = False
-                pygame.mouse.set_visible(True)
-                break
 
     def _update_target(self):
         """Update positions of all aliens and check for collisions with the ship or left screen edge."""
@@ -148,31 +143,6 @@ class Game:
         if self.target.check_edges():
             self.setting.target_direction *= -1
     
-    def _ship_hit(self):
-        """
-        Respond to the ship being hit by an alien.
-
-        Decrements ships_left and ship_hits, resets the fleet and bullets, and pauses briefly.
-        Ends the game if no ships remain.
-        """
-
-        if self.stats.ships_left > 0:
-            # Update ship and hit statistics
-            self.stats.ships_left -= 1
-            self.stats.ship_hits += 1
-
-            # Clear remaining aliens and bullets
-            self.aliens.empty()
-            self.bullets.empty()
-
-            # Create a new fleet and center the ship
-            self.ship.center_ship()
-
-            # Pause.
-            sleep(0.5)
-        else:
-            self.stats.game_active = False
-
     def run_game(self):
         """Start the main game loop, handling events, updates, and drawing each frame."""
         while True:
