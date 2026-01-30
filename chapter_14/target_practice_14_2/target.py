@@ -37,16 +37,16 @@ class Target(Sprite):
 
     def update(self):
         """
-        Move the alien left across the screen.
+        Move the target up and down the screen.
         
-        Called once per frame. Updates both the float-based horizontal position 
+        Called once per frame. Updates both the float-based vertical position 
         and the rect for rendering on the screen.
         """
 
         # Move left based on the alien's speed setting
-        self.x -= self.setting.target_speed
+        self.y += self.setting.target_speed
         # Update rect position for drawing
-        self.rect.x = self.x 
+        self.rect.y = self.y 
 
     def draw_target(self):
         """Draw the target as a filled rectangle on the screen."""
