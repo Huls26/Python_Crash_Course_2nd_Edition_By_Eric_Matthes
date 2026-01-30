@@ -18,6 +18,7 @@ class Setting:
         self.max_alien_hits = 15
         self.target_width = 50
         self.target_height = 75
+        self.target_color = (3, 26, 96)
 
         # Bullet settings
         self.bullet_speed = 10
