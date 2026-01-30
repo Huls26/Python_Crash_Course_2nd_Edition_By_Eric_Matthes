@@ -75,8 +75,6 @@ class Game:
         for bullet in self.bullets.sprites():
             bullet.draw_bullets()
 
-        
-
         # Draw ship and target
         self.ship.blitme()
         self.target.draw_target()
@@ -117,18 +115,16 @@ class Game:
         # If all aliens are destroyed, create a new fleet
         if not self.aliens:
             self.bullets.empty()
-            self._create_fleet()
 
-    def _update_aliens(self):
+    def _update_target(self):
         """Update positions of all aliens and check for collisions with the ship or left screen edge."""
-        # self.target.update()
+        self.target.update()
 
         # Check for collision between any alien and the ship
         # if pygame.sprite.spritecollideany(self.ship, self.target):
         #     self._ship_hit()
 
         # Check if any alien has reached the left edge of the screen
-        self._check_aliens_hit_left_edge()
     
     def _ship_hit(self):
         """
@@ -148,7 +144,6 @@ class Game:
             self.bullets.empty()
 
             # Create a new fleet and center the ship
-            self._create_fleet()
             self.ship.center_ship()
 
             # Pause.
@@ -164,7 +159,7 @@ class Game:
             if self.stats.game_active:
                 self._update_bullets()
                 self.ship.update()
-                self._update_aliens()
+                self._update_target()
 
             self._update_screen()
 
