@@ -78,42 +78,14 @@ class Game:
         for bullet in self.bullets.sprites():
             bullet.draw_bullets()
 
-        # Draw ship and aliens
+        
+
+        # Draw ship and target
         self.ship.blitme()
-        self.aliens.draw(self.screen)
+        self.target.draw_target()
 
         # Make the most recent screen visible
         pygame.display.flip()
-
-    def _create_fleet(self):
-        """Create a grid-based fleet of aliens starting on the right side of the screen."""
-        # Create a sample alien to get its dimensions
-        alien = Alien(self)
-        alien_width, alien_height = alien.rect.size
-        
-        # Starting positions for the alien grid
-        alien_position_x = alien_width * 6
-        alien_x = alien_position_x
-        alien_y = alien_height
-
-        # Create multiple rows of aliens
-        while alien_y < self.setting.screen_height:
-            while alien_x < self.setting.screen_width - alien_width:
-                self._create_alien(alien_x, alien_y)
-                alien_x += alien_width * 2
-
-            # Move to the next row
-            alien_x = alien_position_x
-            alien_y += alien_height * 2
-
-    def _create_alien(self, alien_x, alien_y):
-        """Create a single alien at the specified position and add it to the aliens group."""
-        alien = Alien(self)
-        alien.x = alien_x
-        alien.rect.x = alien.x
-        alien.y = alien_y
-        alien.rect.y = alien.y
-        self.aliens.add(alien)
 
     def _update_bullets(self):
         """Update the position of bullets and remove those that have moved off-screen."""
