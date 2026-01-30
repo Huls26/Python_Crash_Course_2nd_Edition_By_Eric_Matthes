@@ -35,6 +35,12 @@ class Target(Sprite):
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
 
+    def check_edges(self):
+        """Return True if target is at edge of screen."""
+
+        if self.rect.bottom >= self.screen_rect.bottom or self.rect.top <= 0:
+            return True  
+
     def update(self):
         """
         Move the target up and down the screen.

@@ -124,7 +124,8 @@ class Game:
         # if pygame.sprite.spritecollideany(self.ship, self.target):
         #     self._ship_hit()
 
-        # Check if any alien has reached the left edge of the screen
+        if self.target.check_edges():
+            self.setting.target_direction *= -1
     
     def _ship_hit(self):
         """
