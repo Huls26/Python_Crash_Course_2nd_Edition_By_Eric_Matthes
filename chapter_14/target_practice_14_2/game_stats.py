@@ -11,7 +11,7 @@ class GameStats:
         self.settings = ai_game.setting
 
         # Start the game in an active state
-        self.game_active = True
+        self.game_active = False
         
         # Track the number of target hits and ship hits
         self.target_hits = 0
