@@ -27,7 +27,10 @@ class Target(Sprite):
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
 
-        self.rect.midright = self.screen_rect.midright
+        # Position the target at the middle-right of the screen
+        # using rect.right and rect.centery for precise alignment
+        self.rect.right = self.screen_rect.right - self.rect.width
+        self.rect.centery = self.screen_rect.centery
 
         # Store the alien's exact horizontal and vertical positions as floats for smooth movement
         self.x = float(self.rect.x)
