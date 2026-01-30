@@ -135,13 +135,10 @@ class Game:
             if bullet.is_bullet_missed():
                 self.stats.bullets_missed_count += 1
 
-            if self.stats.bullets_missed_count >= 3:
+            if self.stats.bullets_missed_count >= self.setting.missed_bullet_limit:
                 self.stats.game_active = False
+                pygame.mouse.set_visible(True)
                 break
-
-        # If all aliens are destroyed, create a new fleet
-        # if not self.aliens:
-        #     self.bullets.empty()
 
     def _update_target(self):
         """Update positions of all aliens and check for collisions with the ship or left screen edge."""
