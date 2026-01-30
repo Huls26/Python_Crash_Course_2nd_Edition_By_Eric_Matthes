@@ -37,9 +37,7 @@ class Target(Sprite):
 
     def check_edges(self):
         """Return True if target is at edge of screen."""
-
-        if self.rect.bottom >= self.screen_rect.bottom or self.rect.top <= 0:
-            return True  
+        return self.rect.bottom >= self.screen_rect.bottom or self.rect.top <= 0
 
     def update(self):
         """
