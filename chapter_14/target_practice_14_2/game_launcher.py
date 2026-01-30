@@ -92,38 +92,31 @@ class Game:
                 self.bullets.remove(bullet)
         
         # Check for collisions between bullets and aliens
-        # self._check_bullet_alien_collisions()
+        self._check_bullet_target_collisions()
 
-    def _check_bullet_alien_collisions(self):
-        """
-        Detect collisions between bullets and aliens, remove them, and update alien hit count.
-
-        Also ends the game if max_alien_hits is reached, and creates a new fleet if all aliens are destroyed.
+    def _check_bullet_target_collisions(self):
+        collision = pygame.sprite.spritecollide(self.target, self.bullets, True) 
         
-        """
-        collision = pygame.sprite.groupcollide(
-            self.bullets, self.aliens, True, True
-        )
+        if collision:
+            self.stats.target_hits += 1
+            
 
-        for aliens_hit in collision.values():
-            if self.stats.alien_hits < self.setting.max_alien_hits:
-                self.stats.alien_hits += len(aliens_hit)
-            else: 
-                self.stats.game_active = False
-                break
+        # for aliens_hit in collision.values():
+        #     if self.stats.alien_hits < self.setting.max_alien_hits:
+        #         self.stats.alien_hits += len(aliens_hit)
+        #     else: 
+        #         self.stats.game_active = False
+        #         break
 
         # If all aliens are destroyed, create a new fleet
-        if not self.aliens:
-            self.bullets.empty()
+        # if not self.aliens:
+        #     self.bullets.empty()
 
     def _update_target(self):
         """Update positions of all aliens and check for collisions with the ship or left screen edge."""
         self.target.update()
-
-        # Check for collision between any alien and the ship
-        # if pygame.sprite.spritecollideany(self.ship, self.target):
-        #     self._ship_hit()
-
+    
+        # Check when the target is reaching the top or bottom
         if self.target.check_edges():
             self.setting.target_direction *= -1
     
