@@ -44,7 +44,7 @@ class Target(Sprite):
         """
 
         # Move left based on the alien's speed setting
-        self.y += self.setting.target_speed * self.target_direction
+        self.y += self.setting.target_speed * self.setting.target_direction
         # Update rect position for drawing
         self.rect.y = self.y 
 

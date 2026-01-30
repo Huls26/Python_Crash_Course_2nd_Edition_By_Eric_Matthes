@@ -14,7 +14,7 @@ class Setting:
         self.ship_limit = 3
 
         # target settings
-        self.target_speed = 0.1
+        self.target_speed = 5
         self.max_alien_hits = 15
         self.target_width = 50
         self.target_height = 75
