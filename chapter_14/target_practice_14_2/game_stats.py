@@ -12,15 +12,14 @@ class GameStats:
 
         # Start the game in an active state
         self.game_active = False
-        
-        # Track the number of target hits and ship hits
-        self.target_hits = 0
-        self.bullets_missed_count = 0
 
         # Initialize other statistics that can change during the game
         self.reset_stats()
 
     def reset_stats(self):
         """Initialize statistics that can change during the game."""
+        # Track the number of target hits and ship hits
         # Number of ships remaining
         self.ships_left = self.settings.ship_limit
+        self.target_hits = 0
+        self.bullets_missed_count = 0
