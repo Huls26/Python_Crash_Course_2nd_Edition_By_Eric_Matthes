@@ -121,11 +121,11 @@ class Game:
 
     def _update_aliens(self):
         """Update positions of all aliens and check for collisions with the ship or left screen edge."""
-        self.aliens.update()
+        # self.target.update()
 
         # Check for collision between any alien and the ship
-        if pygame.sprite.spritecollideany(self.ship, self.aliens):
-            self._ship_hit()
+        # if pygame.sprite.spritecollideany(self.ship, self.target):
+        #     self._ship_hit()
 
         # Check if any alien has reached the left edge of the screen
         self._check_aliens_hit_left_edge()
@@ -155,13 +155,6 @@ class Game:
             sleep(0.5)
         else:
             self.stats.game_active = False
-
-    def _check_aliens_hit_left_edge(self):
-        """Check if any alien has reached the left edge of the screen and trigger a ship hit."""
-        for alien in self.aliens.sprites():
-            if alien.rect.left <= 0:
-                self._ship_hit()
-                break
 
     def run_game(self):
         """Start the main game loop, handling events, updates, and drawing each frame."""
