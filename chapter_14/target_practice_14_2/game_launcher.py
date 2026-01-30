@@ -32,10 +32,7 @@ class Game:
 
         # Sprite groups for bullets and aliens
         self.bullets = pygame.sprite.Group()
-        self.target = Target()
-
-        # Create the initial fleet of aliens
-        self._create_fleet()
+        self.target = Target(self)
 
     def _check_events(self):
         """Respond to keyboard and mouse events."""
@@ -97,7 +94,7 @@ class Game:
                 self.bullets.remove(bullet)
         
         # Check for collisions between bullets and aliens
-        self._check_bullet_alien_collisions()
+        # self._check_bullet_alien_collisions()
 
     def _check_bullet_alien_collisions(self):
         """

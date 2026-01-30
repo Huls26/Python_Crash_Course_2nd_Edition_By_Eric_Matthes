@@ -13,20 +13,21 @@ class Target(Sprite):
         """
         super().__init__()
         self.screen = ai_game.screen
-        self.settings = ai_game.setting
+        self.screen_rect = self.screen.get_rect()
+        self.setting = ai_game.setting
 
         # Load the target image and get its rectangular area for positioning
         self.rect = pygame.Rect(
             0, 0, 
-            self.setting.bullet_width,
-            self.setting.bullet_height
+            self.setting.target_width,
+            self.setting.target_height
         )
 
         # Set initial position near the top-left corner of the screen
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
 
-        self.rect.midright = self.screen.midright
+        self.rect.midright = self.screen_rect.midright
 
         # Store the alien's exact horizontal and vertical positions as floats for smooth movement
         self.x = float(self.rect.x)
@@ -41,7 +42,7 @@ class Target(Sprite):
         """
 
         # Move left based on the alien's speed setting
-        self.x -= self.settings.alien_speed
+        self.x -= self.setting.alien_speed
         # Update rect position for drawing
         self.rect.x = self.x 
 
