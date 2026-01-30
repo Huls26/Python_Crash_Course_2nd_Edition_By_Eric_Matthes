@@ -7,6 +7,7 @@ from bullet import Bullet
 from target import Target
 from setting import Setting
 from game_stats import GameStats
+from button import Button
 
 class Game:
     """Overall class to manage game assets and behavior for Sideways Shooter."""
@@ -30,9 +31,31 @@ class Game:
         # Create the player ship
         self.ship = Ship(self)
 
-        # Sprite groups for bullets and aliens
+        # Sprite groups for bullets and target
         self.bullets = pygame.sprite.Group()
         self.target = Target(self)
+
+        self.play_button = Button(self, "play")
+
+    def _check_play_button(self, mouse_pos):
+        """Start a new game when the player clicks Play."""
+        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+
+        if button_clicked and not self.stats.game_active:
+           self._start_game()
+
+    def _start_game(self):
+        # Reset the game statistics.
+        self.stats.reset_stats()
+        self.stats.game_active = True
+
+        self.bullets.empty()
+
+        # Create a new fleet and center the ship.
+        self.ship.center_ship()
+
+        # Hide the mouse cursor.
+        pygame.mouse.set_visible(False)
 
     def _check_events(self):
         """Respond to keyboard and mouse events."""
@@ -43,6 +66,9 @@ class Game:
                 self._key_down_x_y(event)
             elif event.type == pygame.KEYUP:
                 self._key_up_x_y(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_play_button(mouse_pos)
 
     def _fire_bullets(self):
         """Create a new bullet fired from the ship."""
@@ -77,6 +103,10 @@ class Game:
 
         # Draw ship and target
         self.ship.blitme()
+
+        if not self.stats.game_active:
+            self.play_button.draw_button()
+
         self.target.draw_target()
 
         # Make the most recent screen visible
