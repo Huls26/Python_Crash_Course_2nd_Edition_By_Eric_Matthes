@@ -105,6 +105,10 @@ class Game:
             if bullet.is_bullet_missed():
                 self.stats.bullets_missed_count += 1
 
+            if self.stats.bullets_missed_count >= 3:
+                self.stats.game_active = False
+                break
+
         # If all aliens are destroyed, create a new fleet
         # if not self.aliens:
         #     self.bullets.empty()
