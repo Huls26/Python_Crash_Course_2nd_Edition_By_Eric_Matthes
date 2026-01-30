@@ -19,8 +19,8 @@ class Bullet(Sprite):
         self.ship = game.ship
         self.setting = game.setting
 
-        # Create a bullet rectangle at (0, 0) with the defined width and height
-        # Position it at the ship's mid-right so it appears to be fired from the ship
+        # Create a bullet rectangle with specified width and height
+        # Start at (0,0), then position it at the ship's mid-right
         self.rect = pygame.Rect(
             0, 0, 
             self.setting.bullet_width,
@@ -33,14 +33,14 @@ class Bullet(Sprite):
 
     def update(self):
         """
-        Move the bullet right across the screen.
+        Move the bullet horizontally to the right.
 
-        Called once per frame. Updates the float-based x-position and
-        the rect for rendering.
+        Updates the float-based x-position and the rect position for rendering.
+        Called once per frame in the game loop.
         """
-        # Move bullet right based on the bullet speed
+        # Increase the bullet's x position based on the bullet speed
         self.x += self.setting.bullet_speed
-        # Update rect position for drawing
+        # Update the rect's x-position to match the float value
         self.rect.x = self.x
         
     def draw_bullets(self):
