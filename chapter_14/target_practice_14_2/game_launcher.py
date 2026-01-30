@@ -4,7 +4,7 @@ from time import sleep
 
 from ship import Ship
 from bullet import Bullet
-from alien import Alien
+from target import Target
 from setting import Setting
 from game_stats import GameStats
 
@@ -32,7 +32,7 @@ class Game:
 
         # Sprite groups for bullets and aliens
         self.bullets = pygame.sprite.Group()
-        self.aliens = pygame.sprite.Group()
+        self.target = Target()
 
         # Create the initial fleet of aliens
         self._create_fleet()

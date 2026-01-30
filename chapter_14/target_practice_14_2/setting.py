@@ -13,9 +13,11 @@ class Setting:
         self.ship_speed = 15
         self.ship_limit = 3
 
-        # Alien settings
-        self.alien_speed = 0.1
+        # target settings
+        self.target_speed = 0.1
         self.max_alien_hits = 15
+        self.target_width = 50
+        self.target_height = 75
 
         # Bullet settings
         self.bullet_speed = 10
