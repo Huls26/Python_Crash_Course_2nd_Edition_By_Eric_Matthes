@@ -99,14 +99,11 @@ class Game:
         
         if collision:
             self.stats.target_hits += 1
-            
 
-        # for aliens_hit in collision.values():
-        #     if self.stats.alien_hits < self.setting.max_alien_hits:
-        #         self.stats.alien_hits += len(aliens_hit)
-        #     else: 
-        #         self.stats.game_active = False
-        #         break
+        # Count bullets that missed the target
+        for bullet in self.bullets.sprites():
+            if bullet.is_bullet_missed():
+                self.stats.bullets_missed_count += 1
 
         # If all aliens are destroyed, create a new fleet
         # if not self.aliens:
@@ -115,7 +112,7 @@ class Game:
     def _update_target(self):
         """Update positions of all aliens and check for collisions with the ship or left screen edge."""
         self.target.update()
-    
+
         # Check when the target is reaching the top or bottom
         if self.target.check_edges():
             self.setting.target_direction *= -1
