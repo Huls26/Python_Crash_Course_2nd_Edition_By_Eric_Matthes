@@ -15,6 +15,7 @@ class Bullet(Sprite):
         """
         super().__init__()
         self.screen = game.screen
+        self.screen_rect = game.screen_rect
         self.ship = game.ship
         self.setting = game.setting
 
@@ -41,7 +42,7 @@ class Bullet(Sprite):
         self.x += self.setting.bullet_speed
         # Update rect position for drawing
         self.rect.x = self.x
-
+        
     def draw_bullets(self):
         """Draw the bullet as a filled rectangle on the screen."""
         pygame.draw.rect(
@@ -49,3 +50,9 @@ class Bullet(Sprite):
             self.setting.bullet_color,
             self.rect
         )
+
+    def is_bullet_missed(self):
+        # Note: using self.rect.left removes the bullet too early,
+        # before it has fully left the screen.
+
+        return self.rect.right >= self.screen_rect.width
