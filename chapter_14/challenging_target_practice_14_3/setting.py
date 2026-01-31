@@ -24,5 +24,10 @@ class Setting:
         # Bullet settings
         self.bullet_speed = 10
         self.bullet_width = 15
-        self.bullet_height = 5
+        self.bullet_height = 1000
         self.bullet_color = (60, 60, 60)
+
+        self.level_up_scale = 1.3
+
+    def level_up(self):
+        self.target_speed *= self.level_up_scale

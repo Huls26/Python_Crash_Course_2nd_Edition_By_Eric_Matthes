@@ -143,7 +143,7 @@ class Game:
 
             if self.stats.bullets_missed_count >= self.setting.missed_bullet_limit:
                 self._handle_game_over()
-    
+            
     def _handle_game_over(self):
         """
         Handle the game-over state.
@@ -160,6 +160,10 @@ class Game:
         
         if collision:
             self.stats.target_hits += 1
+
+            # Level up every 3 hits
+            if self.stats.target_hits != 0 and self.stats.target_hits % 3 == 0:
+                self.setting.level_up()
 
     def _update_target(self):
         """Update positions of all aliens and check for collisions with the ship or left screen edge."""
