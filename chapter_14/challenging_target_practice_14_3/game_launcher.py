@@ -108,14 +108,21 @@ class Game:
         if not self.stats.game_active:
             self.play_button.draw_button()
 
-        if not self.stats.game_active and (self.stats.bullets_missed_count >= 
-                                           self.setting.missed_bullet_limit):
-            self.hit_button.draw_button()    
+        self.hit_button.draw_button()    
 
         self.target.draw_target()
 
         # Make the most recent screen visible
         pygame.display.flip()
+
+    def _hit_count_display(self):
+        hit_count = self.stats.target_hits
+        self.hit_button._prep_msg(f"Hit Count {hit_count}")
+
+        self.hit_button.rect.centerx = self.screen_rect.centerx
+        self.hit_button.rect.centery = (
+            self.screen_rect.centery - self.hit_button.height * 2
+        )
 
     def _update_bullets(self):
         """
@@ -137,6 +144,8 @@ class Game:
 
             if self.stats.bullets_missed_count >= self.setting.missed_bullet_limit:
                 self._handle_game_over()
+        
+        self._hit_count_display()
     
     def _handle_game_over(self):
         """
@@ -146,14 +155,6 @@ class Game:
         and makes the mouse cursor visible.
         """
         self.stats.game_active = False
-
-        hit_count = self.stats.target_hits
-        self.hit_button._prep_msg(f"Hit Count {hit_count}")
-
-        self.hit_button.rect.centerx = self.screen_rect.centerx
-        self.hit_button.rect.centery = (
-            self.screen_rect.centery - self.hit_button.height * 2
-        )
 
         pygame.mouse.set_visible(True)
 
