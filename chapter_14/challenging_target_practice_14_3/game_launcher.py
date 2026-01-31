@@ -118,7 +118,7 @@ class Game:
 
     def _hit_count_display(self):
         hit_count = self.stats.target_hits
-        self.hit_counter._prep_msg(f"Hit Count {hit_count}")
+        self.hit_counter._prep_msg(f"Hit Count: {hit_count} | Missed Count: {self.stats.bullets_missed_count}")
         self.hit_counter.button_color = (255, 255, 255)
         self.hit_counter.text_color = (3, 20, 95)
         self.hit_counter.rect.midtop = self.screen_rect.midtop
