@@ -2,7 +2,7 @@ import pygame
 from pygame.sprite import Sprite
 
 class Target(Sprite):
-    """A class to represent a single target"""
+    """A class to represent a moving target."""
 
     def __init__(self, ai_game):
         """
@@ -43,8 +43,8 @@ class Target(Sprite):
         """
         Move the target up and down the screen.
         
-        Called once per frame. Updates both the float-based vertical position 
-        and the rect for rendering on the screen.
+        The direction is controlled by target_direction
+        and reversed when screen edges are reached.
         """
 
         # Move left based on the alien's speed setting

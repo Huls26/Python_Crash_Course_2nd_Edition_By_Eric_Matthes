@@ -118,7 +118,12 @@ class Game:
         pygame.display.flip()
 
     def _update_bullets(self):
-        """Update the position of bullets and remove those that have moved off-screen."""
+        """
+        Update bullet positions and handle missed shots.
+
+        Removes bullets that leave the screen and ends the game
+        when the missed bullet limit is reached.
+        """
         self.bullets.update()
 
         # Check for collisions between bullets and aliens
@@ -134,7 +139,12 @@ class Game:
                 self._handle_game_over()
     
     def _handle_game_over(self):
-        """End the game and show final hit count."""
+        """
+        Handle the game-over state.
+
+        Stops gameplay, updates the hit count display,
+        and makes the mouse cursor visible.
+        """
         self.stats.game_active = False
 
         hit_count = self.stats.target_hits
