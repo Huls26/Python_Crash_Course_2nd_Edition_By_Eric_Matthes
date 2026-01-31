@@ -36,7 +36,7 @@ class Game:
         self.target = Target(self)
 
         self.play_button = Button(self, "play")
-        self.hit_button = Button(self, f"Hit Count 0")
+        self.hit_counter = Button(self, f"Hit Count 0")
 
     def _check_play_button(self, mouse_pos):
         """Start a new game when the player clicks Play."""
@@ -108,7 +108,8 @@ class Game:
         if not self.stats.game_active:
             self.play_button.draw_button()
 
-        self.hit_button.draw_button()    
+        self._hit_count_display()
+        self.hit_counter.draw_text()    
 
         self.target.draw_target()
 
@@ -117,12 +118,10 @@ class Game:
 
     def _hit_count_display(self):
         hit_count = self.stats.target_hits
-        self.hit_button._prep_msg(f"Hit Count {hit_count}")
-
-        self.hit_button.rect.centerx = self.screen_rect.centerx
-        self.hit_button.rect.centery = (
-            self.screen_rect.centery - self.hit_button.height * 2
-        )
+        self.hit_counter._prep_msg(f"Hit Count {hit_count}")
+        self.hit_counter.button_color = (255, 255, 255)
+        self.hit_counter.text_color = (3, 20, 95)
+        self.hit_counter.rect.midtop = self.screen_rect.midtop
 
     def _update_bullets(self):
         """
@@ -144,8 +143,6 @@ class Game:
 
             if self.stats.bullets_missed_count >= self.setting.missed_bullet_limit:
                 self._handle_game_over()
-        
-        self._hit_count_display()
     
     def _handle_game_over(self):
         """

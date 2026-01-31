@@ -32,3 +32,7 @@ class Button:
         """Draw the button and its text to the screen."""
         self.screen.fill(self.button_color, self.rect)
         self.screen.blit(self.msg_image, self.msg_image_rect)
+    
+    def draw_text(self):
+        # Draw ONLY the text (no background rectangle)
+        self.screen.blit(self.msg_image, self.msg_image_rect)
