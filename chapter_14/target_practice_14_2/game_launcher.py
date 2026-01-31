@@ -36,6 +36,7 @@ class Game:
         self.target = Target(self)
 
         self.play_button = Button(self, "play")
+        self.hit_button = Button(self, f"Hit Count 0")
 
     def _check_play_button(self, mouse_pos):
         """Start a new game when the player clicks Play."""
@@ -107,6 +108,10 @@ class Game:
         if not self.stats.game_active:
             self.play_button.draw_button()
 
+        if not self.stats.game_active and (self.stats.bullets_missed_count >= 
+                                           self.setting.missed_bullet_limit):
+            self.hit_button.draw_button()    
+
         self.target.draw_target()
 
         # Make the most recent screen visible
@@ -126,8 +131,21 @@ class Game:
                 self.stats.bullets_missed_count += 1
 
             if self.stats.bullets_missed_count >= self.setting.missed_bullet_limit:
-                self.stats.game_active = False
-                pygame.mouse.set_visible(True)
+                self._handle_game_over()
+    
+    def _handle_game_over(self):
+        """End the game and show final hit count."""
+        self.stats.game_active = False
+
+        hit_count = self.stats.target_hits
+        self.hit_button._prep_msg(f"Hit Count {hit_count}")
+
+        self.hit_button.rect.centerx = self.screen_rect.centerx
+        self.hit_button.rect.centery = (
+            self.screen_rect.centery - self.hit_button.height * 2
+        )
+
+        pygame.mouse.set_visible(True)
 
     def _check_bullet_target_collisions(self):
         collision = pygame.sprite.spritecollide(self.target, self.bullets, True) 
