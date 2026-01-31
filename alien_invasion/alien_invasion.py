@@ -78,7 +78,6 @@ class AlienInvasion:
         # Hide the mouse cursor.
         pygame.mouse.set_visible(False)
 
-
     def _check_keydown_events(self, event):
         if event.key == pygame.K_RIGHT:
             # Move the ship to left and right
