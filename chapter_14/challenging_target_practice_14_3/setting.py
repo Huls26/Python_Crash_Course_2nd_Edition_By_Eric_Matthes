@@ -23,14 +23,14 @@ class Setting:
         # Bullet settings
         self.bullet_speed = 15
         self.bullet_width = 15
-        self.bullet_height = 100
+        self.bullet_height = 500
         self.bullet_color = (60, 60, 60)
 
         self.level_up_scale = 1.3
+        self.reset_dynamic_settings()
 
     def level_up(self):
         self.target_speed *= self.level_up_scale
     
     def reset_dynamic_settings(self):
-        self.target_default_speed = 5
-        self.target_speed = self.target_default_speed
+        self.target_speed = 5
