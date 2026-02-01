@@ -43,6 +43,9 @@ class AlienInvasion:
         self.play_button = Button(self, "Play")
         self.level_buttons = [Button(self, "Easy"), Button(self, "Medium"),
                          Button(self, "Hard"),]
+        
+        self.clock = pygame.time.Clock()
+
     
     def _check_events(self):
         # Watch for keyboard and mouse events.
@@ -64,7 +67,7 @@ class AlienInvasion:
 
             if button_clicked and not self.stats.game_active:
                 # Reset the game settings.
-                print(button.msg)
+                print(button)
 
     def _create_level_buttons(self):        
         # Define spacing between buttons
@@ -272,6 +275,8 @@ class AlienInvasion:
                 self._update_aliens()
                 
             self._update_screen()
+            self.clock.tick(60)
+
                 
 if __name__ == '__main__':
     # Make a game instance, and run the game.
