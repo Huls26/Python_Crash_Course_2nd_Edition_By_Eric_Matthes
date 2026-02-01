@@ -49,25 +49,22 @@ class AlienInvasion:
     
     def _check_events(self):
         # Watch for keyboard and mouse events.
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit()
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    mouse_pos = pygame.mouse.get_pos()
-                    self._check_play_button(mouse_pos)
-                    self._check_button_level(mouse_pos)
-                elif event.type == pygame.KEYDOWN:
-                    self._check_keydown_events(event)
-                elif event.type == pygame.KEYUP:
-                    self._check_keyup_events(event)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_play_button(mouse_pos)
+                self._check_button_level(mouse_pos)
+            elif event.type == pygame.KEYDOWN:
+                self._check_keydown_events(event)
+            elif event.type == pygame.KEYUP:
+                self._check_keyup_events(event)
     
     def _check_button_level(self, mouse_pos):
-        for button in self.level_buttons:
-            button_clicked = button.rect.collidepoint(mouse_pos)
-
-            if button_clicked and not self.stats.game_active:
-                # Reset the game settings.
-                print(button)
+        for index, button in enumerate(self.level_buttons):
+            if button.rect.collidepoint(mouse_pos) and not self.stats.game_active:
+                self.setting.difficult_level = index
 
     def _create_level_buttons(self):        
         # Define spacing between buttons
