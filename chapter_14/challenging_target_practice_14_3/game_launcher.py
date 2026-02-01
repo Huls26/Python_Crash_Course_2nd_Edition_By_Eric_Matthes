@@ -48,6 +48,7 @@ class Game:
     def _start_game(self):
         # Reset the game statistics.
         self.stats.reset_stats()
+        self.setting.reset_dynamic_settings()
         self.stats.game_active = True
 
         self.bullets.empty()
@@ -162,6 +163,7 @@ class Game:
             self.stats.target_hits += 1
 
             # Level up every 3 hits
+            # I like this code, it's simple, and it does its job
             if self.stats.target_hits != 0 and self.stats.target_hits % 3 == 0:
                 self.setting.level_up()
 
