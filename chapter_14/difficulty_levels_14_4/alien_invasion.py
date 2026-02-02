@@ -64,7 +64,7 @@ class AlienInvasion:
     def _check_button_level(self, mouse_pos):
         for index, button in enumerate(self.level_buttons):
             if button.rect.collidepoint(mouse_pos) and not self.stats.game_active:
-                self.setting.difficult_level = index
+                self.setting.difficulty_level = index
 
     def _create_level_buttons(self):        
         # Define spacing between buttons
