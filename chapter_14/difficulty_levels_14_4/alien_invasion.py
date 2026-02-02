@@ -43,10 +43,10 @@ class AlienInvasion:
         self.play_button = Button(self, "Play")
         self.level_buttons = [Button(self, "Easy"), Button(self, "Medium"),
                          Button(self, "Hard"),]
-        
+        self._create_level_buttons()
+
         self.clock = pygame.time.Clock()
 
-    
     def _check_events(self):
         # Watch for keyboard and mouse events.
         for event in pygame.event.get():
@@ -81,9 +81,11 @@ class AlienInvasion:
             # Set vertical position based on index
             button.msg_image_rect.centery = self.screen_rect.centery - button.height * 2
             button.rect.centery = self.screen_rect.centery - button.height * 2
+    
+    def _draw_level_buttons(self):
+        for button in self.level_buttons:
+                button.draw_button()
 
-            button.draw_button()
-            
     def _check_play_button(self, mouse_pos):
         """Start a new game when the player clicks Play."""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
@@ -177,8 +179,8 @@ class AlienInvasion:
         # Draw the play button if the game is inactive.
         if not self.stats.game_active:
             self.play_button.draw_button()
-            self._create_level_buttons()
-
+            self._draw_level_buttons()
+            
         # Make the most recently drawn screen visible.                        
         pygame.display.flip()
          
