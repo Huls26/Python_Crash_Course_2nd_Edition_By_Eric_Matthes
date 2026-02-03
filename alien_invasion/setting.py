@@ -14,7 +14,7 @@ class Setting:
         # fleet_direction of 1 represents right; -1 represents left.
 
         # Bullet settings
-        self.bullet_width = 800
+        self.bullet_width = 5
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60)
         self.bullets_allowed = 3
