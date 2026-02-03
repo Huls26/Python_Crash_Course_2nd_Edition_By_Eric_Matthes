@@ -7,7 +7,7 @@ class Scoreboard:
         """Initialize scorekeeping attributes."""
         self.screen = ai_game.screen
         self.screen_rect = self.screen.get_rect()
-        self.settings = ai_game.settings
+        self.settings = ai_game.setting
         self.stats = ai_game.stats
 
         # Font settings for scoring information.
