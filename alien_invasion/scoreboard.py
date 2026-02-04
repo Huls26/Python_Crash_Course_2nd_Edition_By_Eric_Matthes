@@ -29,9 +29,6 @@ class Scoreboard:
         self.score_rect = self.score_image.get_rect()
         self.score_rect.right = self.screen_rect.right - 20
         self.score_rect.top = 20
-
-        # High score should never be reset.
-        self.high_score = 0
     
     def prep_high_score(self):
         """Turn the high score into a rendered image."""
