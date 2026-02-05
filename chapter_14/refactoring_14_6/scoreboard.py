@@ -21,7 +21,7 @@ class Scoreboard:
         self._prep_initial_images()
         
     def _prep_initial_images(self):
-        # Prepare the initial score image.
+        """Prepare initial images for score, level, and ships."""
         self.prep_score()
         self.prep_high_score()
         self.prep_level()
