@@ -182,7 +182,16 @@ class AlienInvasion:
                         self.bullets, self.aliens, True, True)
         
         self._update_score_and_high_score(collisions)
+        self._start_new_level()
+    
+    def _update_score_and_high_score(self, collisions):
+        if collisions:
+            for aliens in collisions.values():
+                self.stats.score += self.setting.alien_points * len(aliens)
+            self.sb.prep_score()
+            self.sb.check_high_score()
 
+    def _start_new_level(self):
         if not self.aliens:
             # Destroy existing bullets and create new fleet.
             self.bullets.empty()
@@ -192,13 +201,6 @@ class AlienInvasion:
             # Increase level.
             self.stats.level += 1
             self.sb.prep_level()
-    
-    def _update_score_and_high_score(self, collisions):
-        if collisions:
-            for aliens in collisions.values():
-                self.stats.score += self.setting.alien_points * len(aliens)
-            self.sb.prep_score()
-            self.sb.check_high_score()
 
     def _check_fleet_edges(self):
         """Respond appropriately if any aliens have reached an edge."""
