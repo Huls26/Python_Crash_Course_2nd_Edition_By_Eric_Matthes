@@ -23,3 +23,10 @@ class GameStats:
                 self.high_score = int(file.read())
         except (FileNotFoundError, ValueError):
             self.high_score = 0
+       
+    def save_high_score(self):
+        try:
+            with open("high_score.txt", "w", encoding='utf-8') as file:
+                file.write(str(self.high_score))
+        except (TypeError, PermissionError, OSError) as e:
+            print(f"Failed to save high score: {e}")
