@@ -185,6 +185,7 @@ class AlienInvasion:
         self._start_new_level()
     
     def _update_score_and_high_score(self, collisions):
+        """Update score from collisions and check high score."""
         if collisions:
             for aliens in collisions.values():
                 self.stats.score += self.setting.alien_points * len(aliens)
@@ -192,6 +193,7 @@ class AlienInvasion:
             self.sb.check_high_score()
 
     def _start_new_level(self):
+        """Reset bullets, create new fleet, increase speed, and update level."""
         if not self.aliens:
             # Destroy existing bullets and create new fleet.
             self.bullets.empty()
