@@ -1,5 +1,6 @@
 import sys
 from time import sleep
+from random import randrange
 
 import pygame
 
@@ -10,6 +11,8 @@ from button import Button
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+
+from alien_bullet import AlienBullet
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -38,6 +41,8 @@ class AlienInvasion:
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
+
+        self.alien_bullets = pygame.sprite.Group()
 
         self._create_fleet()
 
@@ -148,7 +153,10 @@ class AlienInvasion:
         self.screen.fill(self.setting.bg_color)
         self.ship.blitme()
         for bullet in self.bullets.sprites():
-                bullet.draw_bullets()
+            bullet.draw_bullets()
+        for alien_bullets in self.alien_bullets.sprites():
+            alien_bullets.draw_bullets()
+
         self.aliens.draw(self.screen)
 
         # Draw the score information.
@@ -165,13 +173,19 @@ class AlienInvasion:
         """Update position of bullets and get rid of old bullets."""
 
         self.bullets.update()
+        self.alien_bullets.update()
+
         # Get rid of bullets that have disappeared.
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
         
-        self._check_bullet_alien_collisions()
+        for alien_bullet in self.alien_bullets.copy():
+            if alien_bullet.rect.top >= self.setting.screen_height:
+                self.alien_bullets.remove(alien_bullet)
         
+        self._check_bullet_alien_collisions()
+    
     def _check_bullet_alien_collisions(self):
         """Respond to bullet-alien collisions."""
         # Check for any bullets that have hit aliens.
@@ -257,6 +271,12 @@ class AlienInvasion:
 
         self.aliens.add(alien)
 
+    def _alien_fire_bullets(self):
+        if self.aliens and len(self.alien_bullets) < 1:
+            random_alien = randrange(0, len(self.aliens))
+            alien = self.aliens.sprites()[random_alien]
+            self.alien_bullets.add(AlienBullet(self, alien))
+
     def run_game(self):
         """Start the main loop for the game."""
         while True:
@@ -265,6 +285,7 @@ class AlienInvasion:
             if self.stats.game_active:
                 self.ship.update()
                 self._update_bullets()
+                self._alien_fire_bullets()
                 self._update_aliens()
                 
             self._update_screen()

@@ -45,3 +45,5 @@ class Setting:
 
         # Scoring
         self.alien_points = 50
+
+        self.alien_bullets_allowed = 1
