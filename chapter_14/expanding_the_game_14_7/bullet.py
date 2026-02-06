@@ -18,7 +18,6 @@ class Bullet(Sprite):
             ai_game.setting.bullet_height)
 
         self.rect.midtop = self.ship.rect.midtop
-        print(self.rect.midtop)
         
         # Store the bullet's position as a decimal value.
         self.y = float(self.rect.y)
@@ -38,10 +37,5 @@ class Bullet(Sprite):
                 self.screen,
                 self.color,
                 self.rect
-            )   
-
-    def update_alien_bullet(self):
-        self.y += self.setting.bullet_speed
-        self.rect.y = self.y
-
+            )
         
