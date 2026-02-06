@@ -10,8 +10,9 @@ class AlienBullet(Bullet):
         # Override starting position
         self.rect.midbottom = alien.rect.midbottom
         self.y = float(self.rect.y)
+        print(self.rect)
 
     def update(self):
         """Move the bullet down the screen."""
-        self.y += self.settings.bullet_speed
+        self.y += self.settings.alien_bullet_speed
         self.rect.y = self.y
