@@ -148,7 +148,8 @@ class AlienInvasion:
         self.screen.fill(self.setting.bg_color)
         self.ship.blitme()
         for bullet in self.bullets.sprites():
-                bullet.draw_bullets()
+            bullet.draw_bullets()
+
         self.aliens.draw(self.screen)
 
         # Draw the score information.
@@ -171,7 +172,7 @@ class AlienInvasion:
                 self.bullets.remove(bullet)
         
         self._check_bullet_alien_collisions()
-        
+
     def _check_bullet_alien_collisions(self):
         """Respond to bullet-alien collisions."""
         # Check for any bullets that have hit aliens.
