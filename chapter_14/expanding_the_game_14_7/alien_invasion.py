@@ -235,7 +235,8 @@ class AlienInvasion:
         self.aliens.update()
 
         # Look for alien-ship collisions.
-        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+        if pygame.sprite.spritecollideany(self.ship, 
+            self.aliens) or pygame.sprite.spritecollideany(self.ship, self.alien_bullets) :
             self._ship_hit()
         
         # look for aliens hitting the bottom of the screen.
@@ -273,7 +274,7 @@ class AlienInvasion:
 
     def _alien_fire_bullets(self):
         """Allow a random alien to fire a bullet """
-        if self.aliens and len(self.alien_bullets) < 1:
+        if self.aliens and len(self.alien_bullets) < self.setting.alien_bullets_allowed:
             random_alien = randrange(0, len(self.aliens))
             alien = self.aliens.sprites()[random_alien]
             self.alien_bullets.add(AlienBullet(self, alien))
