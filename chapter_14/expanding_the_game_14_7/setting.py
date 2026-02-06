@@ -46,4 +46,5 @@ class Setting:
         # Scoring
         self.alien_points = 50
 
+        # Maximum number of bullets an alien can fire at a time
         self.alien_bullets_allowed = 1

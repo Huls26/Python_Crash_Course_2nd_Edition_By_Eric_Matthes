@@ -272,6 +272,7 @@ class AlienInvasion:
         self.aliens.add(alien)
 
     def _alien_fire_bullets(self):
+        """Allow a random alien to fire a bullet """
         if self.aliens and len(self.alien_bullets) < 1:
             random_alien = randrange(0, len(self.aliens))
             alien = self.aliens.sprites()[random_alien]
