@@ -23,9 +23,9 @@ class Scoreboard:
     def _prep_initial_images(self):
         """Prepare initial images for score, level, and ships."""
         self.prep_score()
-        self.prep_high_score()
-        self.prep_level()
-        self.prep_ships()
+        # self.prep_high_score()
+        # self.prep_level()
+        # self.prep_ships()
 
     def prep_score(self):
         """Turn the score into a rendered image."""
@@ -74,9 +74,9 @@ class Scoreboard:
     def show_score(self):
         """Draw scores, level, and ships to the screen."""
         self.screen.blit(self.score_image, self.score_rect)
-        self.screen.blit(self.high_score_image, self.high_score_rect)
-        self.screen.blit(self.level_image, self.level_rect)
-        self.ships.draw(self.screen)
+        # self.screen.blit(self.high_score_image, self.high_score_rect)
+        # self.screen.blit(self.level_image, self.level_rect)
+        # self.ships.draw(self.screen)
     
     def check_high_score(self):
         """Check to see if there's a new high score."""
