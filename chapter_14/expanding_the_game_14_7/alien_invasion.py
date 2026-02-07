@@ -48,6 +48,8 @@ class AlienInvasion:
 
         # Make the Play button.
         self.play_button = Button(self, "Play")
+
+        self.clock = pygame.time.Clock()
     
     def _check_events(self):
         # Watch for keyboard and mouse events.
@@ -291,6 +293,8 @@ class AlienInvasion:
                 self._update_aliens()
                 
             self._update_screen()
+            # limit to 60 FPS
+            self.clock.tick(60)
                 
 if __name__ == '__main__':
     # Make a game instance, and run the game.
