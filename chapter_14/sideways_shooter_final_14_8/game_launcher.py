@@ -7,6 +7,7 @@ from bullet import Bullet
 from alien import Alien
 from setting import Setting
 from game_stats import GameStats
+from scoreboard import Scoreboard
 
 class Game:
     """Overall class to manage game assets and behavior for Sideways Shooter."""
@@ -26,6 +27,8 @@ class Game:
 
         # Game statistics
         self.stats = GameStats(self)
+        
+        self.sb = Scoreboard(self)
 
         # Create the player ship
         self.ship = Ship(self)
@@ -81,6 +84,9 @@ class Game:
         # Draw ship and aliens
         self.ship.blitme()
         self.aliens.draw(self.screen)
+
+        self.sb.prep_score()
+        self.sb.show_score()
 
         # Make the most recent screen visible
         pygame.display.flip()
