@@ -85,7 +85,6 @@ class Game:
         self.ship.blitme()
         self.aliens.draw(self.screen)
 
-        self.sb.prep_score()
         self.sb.show_score()
 
         # Make the most recent screen visible
@@ -144,12 +143,15 @@ class Game:
             self.bullets, self.aliens, True, True
         )
 
-        for aliens_hit in collision.values():
-            if self.stats.alien_hits < self.setting.max_alien_hits:
-                self.stats.alien_hits += len(aliens_hit)
-            else: 
-                self.stats.game_active = False
-                break
+        if collision:
+            for aliens_hit in collision.values():
+                if self.stats.alien_hits < self.setting.max_alien_hits:
+                    self.stats.alien_hits += len(aliens_hit)
+                    self.stats.score += len(aliens_hit)
+                else: 
+                    self.stats.game_active = False
+                    break
+            self.sb.prep_score()
 
         # If all aliens are destroyed, create a new fleet
         if not self.aliens:
@@ -215,6 +217,7 @@ class Game:
             # Limit the game to 60 frames per second
             self.clock.tick(60)
 
-# Create the game instance and start the game
-shooter_ship = Game()
-shooter_ship.run_game()
+if __name__ == '__main__':
+    # Create the game instance and start the game
+    shooter_ship = Game()
+    shooter_ship.run_game()
