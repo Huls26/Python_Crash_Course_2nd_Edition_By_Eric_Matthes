@@ -17,6 +17,8 @@ class GameStats:
         self.alien_hits = 0
         self.ship_hits = 0
 
+        self.high_score = 0
+
         # Initialize other statistics that can change during the game
         self.reset_stats()
 
@@ -24,3 +26,4 @@ class GameStats:
         """Initialize statistics that can change during the game."""
         # Number of ships remaining
         self.ships_left = self.settings.ship_limit
+        self.score = 0
