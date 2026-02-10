@@ -158,8 +158,16 @@ class Game:
             self.bullets.empty()
             self._create_fleet()
 
+    def _check_fleet_edges(self):
+        """Reverse fleet direction if any alien reaches the screen edge."""
+        for alien in self.aliens.sprites():
+            if alien.check_edges():
+                self.setting.fleet_direction *= -1
+                break
+
     def _update_aliens(self):
         """Update positions of all aliens and check for collisions with the ship or left screen edge."""
+        self._check_fleet_edges()
         self.aliens.update()
 
         # Check for collision between any alien and the ship
