@@ -28,14 +28,17 @@ class Alien(Sprite):
         self.y = float(self.rect.y)
 
     def update(self):
-        """
-        Move the alien left across the screen.
-        
-        Called once per frame. Updates both the float-based horizontal position 
-        and the rect for rendering on the screen.
-        """
+        """Move the alien left and vertically according to fleet direction."""
+        self.x -= 0.2
+        self.rect.x = self.x
+        self.y += self.settings.alien_speed * self.settings.fleet_direction
+        self.rect.y = self.y
 
-        # Move left based on the alien's speed setting
-        self.x -= self.settings.alien_speed
-        # Update rect position for drawing
-        self.rect.x = self.x 
+    def check_edges(self):
+        """Return True if the alien touches the top or bottom of the screen."""
+        screen_rect = self.screen.get_rect()
+
+        return self.rect.bottom >= screen_rect.bottom or self.rect.top <= 0
+            
+
+    
