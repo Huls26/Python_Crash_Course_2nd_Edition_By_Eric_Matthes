@@ -18,6 +18,8 @@ class Setting:
         self.bullet_height = 5
         self.bullet_color = (60, 60, 60)
 
+        self.fleet_move_speed = 10
+
         self.initialize_dynamic_settings()
     
     def initialize_dynamic_settings(self):
