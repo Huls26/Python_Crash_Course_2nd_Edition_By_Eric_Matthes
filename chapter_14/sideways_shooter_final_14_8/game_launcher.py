@@ -147,7 +147,7 @@ class Game:
             for aliens_hit in collision.values():
                 if self.stats.alien_hits < self.setting.max_alien_hits:
                     self.stats.alien_hits += len(aliens_hit)
-                    self.stats.score += len(aliens_hit)
+                    self.stats.score += self.setting.alien_points * len(aliens_hit)
                 else: 
                     self.stats.game_active = False
                     break
