@@ -8,6 +8,7 @@ from alien import Alien
 from setting import Setting
 from game_stats import GameStats
 from scoreboard import Scoreboard
+from button import Button
 
 class Game:
     """Overall class to manage game assets and behavior for Sideways Shooter."""
@@ -37,6 +38,8 @@ class Game:
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
 
+        self.play_button = Button(self, "Play Button")
+
         # Create the initial fleet of aliens
         self._create_fleet()
 
@@ -45,6 +48,9 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_play_button(mouse_pos)
             elif event.type == pygame.KEYDOWN:
                 self._key_down_x_y(event)
             elif event.type == pygame.KEYUP:
@@ -87,8 +93,41 @@ class Game:
 
         self.sb.show_score()
 
+        # Draw the play button if the game is inactive.
+        if not self.stats.game_active:
+            self.play_button.draw_button()
+
         # Make the most recent screen visible
         pygame.display.flip()
+    
+    def _check_play_button(self, mouse_pos):
+        """Start a new game when the player clicks Play."""
+        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+
+        if button_clicked and not self.stats.game_active:
+            # Reset the game settings.
+            self.setting.initialize_dynamic_settings()
+            self._start_game()
+    
+    def _start_game(self):
+        # Reset the game statistics.
+        self.stats.reset_stats()
+        self.stats.game_active = True
+        self.sb.prep_score()
+        # self.sb.prep_level()
+        # self.sb.prep_ships()
+
+        # Get rid of any remaining aliens and bullets.
+        self.aliens.empty()
+
+        self.bullets.empty()
+
+        # Create a new fleet and center the ship.
+        self._create_fleet()
+        self.ship.center_ship()
+
+        # Hide the mouse cursor.
+        pygame.mouse.set_visible(False)
 
     def _create_fleet(self):
         """Create a grid-based fleet of aliens starting on the right side of the screen."""
