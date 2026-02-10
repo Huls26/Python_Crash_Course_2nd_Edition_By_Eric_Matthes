@@ -97,7 +97,7 @@ class Game:
         alien_width, alien_height = alien.rect.size
         
         # Starting positions for the alien grid
-        alien_position_x = alien_width * 7
+        alien_position_x = alien_width * 8
         alien_x = alien_position_x
         alien_y = alien_height
 
