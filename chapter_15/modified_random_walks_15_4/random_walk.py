@@ -1,4 +1,4 @@
-from random import choice
+from random import choice, randint
 
 class RandomWalk:
     """A class to generate random walks."""
@@ -20,11 +20,11 @@ class RandomWalk:
             # Decide which direction to go and how far to go in that direction.
             x_direction = choice([1, -1])
 
-            x_distance = choice([0, 1, 2, 3, 4])
+            x_distance = randint(0, 8)
             x_step = x_direction * x_distance
 
             y_direction = choice([1, -1])
-            y_distance = choice([0, 1, 2, 3, 4])
+            y_distance = randint(0, 8)
             y_step = y_direction * y_distance
 
             # Reject moves that go nowhere.
