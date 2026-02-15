@@ -26,9 +26,14 @@ x_values = list(range(2, max_result+1))
 # plot
 fig, ax = plt.subplots()
 
-ax.bar(x_values, frequencies, width=1, edgecolor="white", linewidth=0.7)
+ax.bar(x_values, frequencies, width=1, edgecolor="white", linewidth=5)
 
-# ax.set(xlim=(0, 8), xticks=np.arange(1, 8),
-#        ylim=(0, 8), yticks=np.arange(1, 8))
+# Set chart title and label axes.
+ax.set_title("Results of rolling two D6 dice 1,000 times", fontsize=24)
+ax.set_xlabel("result", fontsize=14)
+ax.set_ylabel("Frequency of Result", fontsize=14)
+
+# Set size of tick labels.
+ax.tick_params(axis='both', labelsize=14)
 
 plt.show()
