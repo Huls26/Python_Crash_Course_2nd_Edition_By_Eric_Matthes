@@ -6,9 +6,10 @@ with open(filename) as f:
     header_row = next(reader)
     
     # Get high temperatures from this file.
-    highs = []
-    for row in reader:
-        high = int(row[5])
-        highs.append(high)
-        
+    # highs = []
+    # for row in reader:
+    #     high = int(row[5])
+    #     highs.append(high)
+    highs = [int(row[5]) for row in reader]
+
 print(highs)
