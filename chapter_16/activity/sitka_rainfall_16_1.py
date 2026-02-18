@@ -11,10 +11,14 @@ with open(filename) as f:
     # Get dates, and high and low temperatures from this file.
     dates, prcps = [], []
     for row in reader:
-        current_date = datetime.strptime(row[2], '%Y-%m-%d')
-        prcp = float(row[3])
-        dates.append(current_date)
-        prcps.append(prcp)
+        try:
+            current_date = datetime.strptime(row[2], '%Y-%m-%d')
+            prcp = float(row[3])
+        except ValueError:
+            print(f"Missing data for {row[2]}")
+        else:
+            dates.append(current_date)
+            prcps.append(prcp)
 
 # Plot the high temperatures.
 plt.style.use('seaborn-v0_8')
