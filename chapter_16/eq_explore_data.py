@@ -8,3 +8,10 @@ with open(filename, encoding="utf-8") as f:
 readable_file = 'data/readable_eq_data.json'
 with open(readable_file, 'w') as f:
     json.dump(all_eq_data, f, indent=4)
+
+mags = []
+for data in all_eq_data['features']:
+    mag = data['properties']['mag']
+    mags.append(float(mag))
+
+print(mags)
