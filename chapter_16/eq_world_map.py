@@ -8,22 +8,25 @@ filename = 'data/eq_data_30_day_m1.json'
 with open(filename, encoding="utf-8") as f:
     all_eq_data = json.load(f)
 
-mags, lons, lats = [], [], []
+mags, lons, lats, hover_texts = [], [], [], []
 for data in all_eq_data['features']:
     mag = data['properties']['mag']
     lon = data['geometry']['coordinates'][0]
     lat = data['geometry']['coordinates'][1]
+    title = data['properties']['title']
     
     if mag is not None:
         mags.append(mag)
         lons.append(lon)
         lats.append(lat)
+        hover_texts.append(title)
 
 # Map the earthquakes.
 data = [{
         'type': 'scattergeo',
         'lon': lons,
         'lat': lats,
+        'text': hover_texts,
         'marker': {
             'size': [3 * abs(mag) for mag in mags],
             'color': mags,
