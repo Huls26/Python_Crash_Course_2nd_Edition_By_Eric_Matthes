@@ -31,16 +31,22 @@ data = [{
 }]
 
 my_layout = {
-    'title': 'Most-Starred Python Projects on GitHub',
-    'titlefont': {'size': 28},
+    'title': {
+        'text': 'Most-Starred Python Projects on GitHub',
+        'font': {'size': 28}
+    },
     'xaxis': {
-        'title': 'Repository',
-        'titlefont': {'size': 24},
+        'title': {
+            'text': 'Repository',
+            'font': {'size': 24}
+        },
         'tickfont': {'size': 14},
     },
     'yaxis': {
-        'title': 'Stars',
-        'titlefont': {'size': 24},
+        'title': {
+            'text': 'Stars',
+            'font': {'size': 24}
+        },
         'tickfont': {'size': 14}, 
     },
 }
