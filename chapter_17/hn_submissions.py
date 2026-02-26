@@ -28,8 +28,7 @@ for submission_id in submission_ids[:30]:
     submission_dicts = sorted(submission_dicts, key=itemgetter('comments'), 
                               reverse=True)
     
-    for submission_dict in submission_dicts:
-        print(f"\nTitle: {submission_dict['title']}")
-        print(f"Discussion link: {submission_dict['hn_link']}")
-        print(f"Comments: {submission_dict['comments']}")
- 
+for submission_dict in submission_dicts:
+    print(f"\nTitle: {submission_dict['title']}")
+    print(f"Discussion link: {submission_dict['hn_link']}")
+    print(f"Comments: {submission_dict['comments']}")
