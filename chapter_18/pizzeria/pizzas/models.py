@@ -13,9 +13,6 @@ class Topping(models.Model):
     pizza = models.ForeignKey(Pizza, on_delete=models.CASCADE)
     name = models.TextField()
 
-    class Meta:
-        verbose_name_plural = 'entries'
-
     def __str__(self):
         """Return a string representation of the model."""
         if len(self.text) > 50:
