@@ -15,7 +15,7 @@ class Topping(models.Model):
 
     def __str__(self):
         """Return a string representation of the model."""
-        if len(self.text) > 50:
+        if len(self.name) > 50:
             return f"{self.pizza.name}: {self.name[:50]}..."
         
         return f"{self.pizza.name}: {self.name}"
